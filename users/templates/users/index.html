@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Профиль</h1>
+    <img src="" alt="ava">
+    <div>
+        <ul>
+            <li>user id</li>
+            <li>user name</li>
+            <li>email</li>
+            <li>password <a href="#">change password</a></li>
+        </ul>
+    </div>
+
+    <div>
+    <select>
+        {% for len in length %}
+            <option>{{ len.1 }}</option>
+        {% endfor %}
+    </select><select>
+        {% for lvl in level %}
+            <option>{{ lvl.1 }}</option>
+        {% endfor %}
+    </select>
+    <button>Добавить</button>
+    </div>
+
+    <div>
+        <ul>
+            {% for length_skill in length_skill %}
+                <li>{{ length_skill }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+{% endblock %}

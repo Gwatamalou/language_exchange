@@ -45,3 +45,9 @@ LENGTH_LIST = (
     ('sv', 'Шведский'),
     ('ja', 'Японский'),
 )
+
+MENU = [
+    {'title':'Диалог', 'url_name': 'lesson'},
+    {'title':'Поиск собеседника', 'url_name': 'ads'},
+    {'title':'Пользователь', 'url_name': 'user'},
+]
