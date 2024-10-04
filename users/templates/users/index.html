@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>Профиль</h1>
-    <img src="" alt="ava">
-    <div>
+    <h1 id="title">Профиль</h1>
+    <div class="inf">
+        <img id="avatar" src="\static\users\images\logo.png" alt="ava">
         <ul>
             <li>user id</li>
             <li>user name</li>
@@ -12,7 +12,7 @@
         </ul>
     </div>
 
-    <div>
+    <div class="add_length_skill">
     <select>
         {% for len in length %}
             <option>{{ len.1 }}</option>
@@ -24,6 +24,8 @@
     </select>
     <button>Добавить</button>
     </div>
+
+    {% include 'users/include/lenguage_table.html' %}
 
     <div>
         <ul>

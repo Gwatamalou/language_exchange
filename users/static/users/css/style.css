@@ -1,0 +1,72 @@
+body {
+    width: 100%;
+}
+
+ul {
+    list-style-type: none;
+}
+
+.content {
+    margin-right: 15%;
+    margin-left: 15%;
+}
+
+/* стили меню */
+
+.menu {
+    background: #eedfe2;
+    border-radius: 0px 0px 10px 10px;
+}
+.menu ul {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-right: 10%;
+        padding-left: 10%;
+        margin: 0;
+}
+
+.menu ul li {
+    margin-left: 20px;
+}
+
+#logo {
+    margin-right: auto;
+}
+
+#title {
+    text-align: center;
+}
+
+.menu ul li a {
+    text-decoration: none;
+    font-size: 16px;
+}
+
+#logo img{
+    width: 50px;
+    height: 50px;
+}
+
+/* стили профиля */
+
+.inf{
+    display: flex;
+    align-items: center;
+}
+
+
+#avatar {
+    margin-left: 20px;
+    width: 300px;
+    height: 300px;
+    border-radius: 10%;
+}
+
+.inf ul{
+    margin-left: 150px;
+}
+
+.inf ul li {
+    margin-bottom: 10px;
+}

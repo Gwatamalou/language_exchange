@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load ads_tags %}
+
+{% block content %}
+
+    <h1 id="title">Nikname</h1>
+
+
+
+
+    <div class="inf">
+        <img id="avatar" src="\static\users\images\logo.png" alt="ava">
+         <p id="description">descript</p>
+    </div>
+     {% include 'advertisements/include/ads_list.html'%}
+     {% include 'users/include/lenguage_table.html' %}
+
+
+{% endblock %}

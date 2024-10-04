@@ -48,6 +48,14 @@ LENGTH_LIST = (
 
 MENU = [
     {'title':'Диалог', 'url_name': 'lesson'},
-    {'title':'Поиск собеседника', 'url_name': 'ads'},
+    {'title':'Поиск собеседника', 'url_name': 'ads_list'},
     {'title':'Пользователь', 'url_name': 'user'},
+]
+
+ADS = [
+    {'name': 'title1', 'length': 'len1', 'skill': 'skill_lvl', 'url_name': 'ads1'},
+    {'name': 'title2', 'length': 'len1', 'skill': 'skill_lvl', 'url_name': 'ads2'},
+    {'name': 'title3', 'length': 'len1', 'skill': 'skill_lvl', 'url_name': 'ads3'},
+    {'name': 'title4', 'length': 'len1', 'skill': 'skill_lvl', 'url_name': 'ads4'},
+    {'name': 'title5', 'length': 'len1', 'skill': 'skill_lvl', 'url_name': 'ads5'},
 ]
