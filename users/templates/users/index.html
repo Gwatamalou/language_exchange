@@ -2,7 +2,7 @@
 
 {% block content %}
     <h1 id="title">Профиль</h1>
-    <div class="inf">
+    <div class="information">
         <img id="avatar" src="\static\users\images\logo.png" alt="ava">
         <ul>
             <li>user id</li>
@@ -12,9 +12,9 @@
         </ul>
     </div>
 
-    <div class="add_length_skill">
+    <div class="add_language_skill">
     <select>
-        {% for len in length %}
+        {% for len in language %}
             <option>{{ len.1 }}</option>
         {% endfor %}
     </select><select>
@@ -29,8 +29,8 @@
 
     <div>
         <ul>
-            {% for length_skill in length_skill %}
-                <li>{{ length_skill }}</li>
+            {% for language_skill in language_skill %}
+                <li>{{ language_skill }}</li>
             {% endfor %}
         </ul>
     </div>

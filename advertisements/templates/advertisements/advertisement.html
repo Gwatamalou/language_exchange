@@ -8,12 +8,16 @@
 
 
 
-    <div class="inf">
+    <div class="choose_lesson ">
         <img id="avatar" src="\static\users\images\logo.png" alt="ava">
+        <div class="lesson_info">
          <p id="description">descript</p>
+        <div class="lesson_ads">
+            <p>текущие объявление <button>назначить занятие</button></p>
+        </div>
+        </div>
     </div>
      {% include 'advertisements/include/ads_list.html'%}
-     {% include 'users/include/lenguage_table.html' %}
 
 
 {% endblock %}

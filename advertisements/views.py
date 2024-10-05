@@ -9,6 +9,5 @@ from django.shortcuts import render
 def advertisements_list(requests):
     return render(requests, 'advertisements/index.html')
 
-def advertisements(request, a):
-    # return render(request, 'advertisements/advertisement.html')
-    return HttpResponse(a)
+def advertisements(request, slug_id):
+    return render(request, 'advertisements/advertisement.html')

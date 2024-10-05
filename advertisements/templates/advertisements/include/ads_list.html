@@ -2,7 +2,7 @@
 {% get_ads as ads %}
 
 {% for a in ads %}
-        <div>
-            <p><a href="{{ a.url_name }}">{{ a.name }} {{ a.length }} {{ a.skill }}</a></p>
+        <div id="core">
+            <p><a href="{{ a.url_name }}">{{ a.name }} {{ a.language }} {{ a.skill }}</a></p>
         </div>
 {% endfor %}

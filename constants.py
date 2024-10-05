@@ -7,7 +7,7 @@ LEVEL_SKILL = (
     ("Proficiency", "профессиональный"),
 )
 
-LENGTH_LIST = (
+LANGUAGE_LIST = (
     ('en', 'Английский'),
     ('ar', 'Арабский'),
     ('hy', 'Армянский'),
@@ -53,9 +53,9 @@ MENU = [
 ]
 
 ADS = [
-    {'name': 'title1', 'length': 'len1', 'skill': 'skill_lvl', 'url_name': 'ads1'},
-    {'name': 'title2', 'length': 'len1', 'skill': 'skill_lvl', 'url_name': 'ads2'},
-    {'name': 'title3', 'length': 'len1', 'skill': 'skill_lvl', 'url_name': 'ads3'},
-    {'name': 'title4', 'length': 'len1', 'skill': 'skill_lvl', 'url_name': 'ads4'},
-    {'name': 'title5', 'length': 'len1', 'skill': 'skill_lvl', 'url_name': 'ads5'},
+    {'name': 'title1', 'language': 'len1', 'skill': 'skill_lvl', 'url_name': 'ads1'},
+    {'name': 'title2', 'language': 'len1', 'skill': 'skill_lvl', 'url_name': 'ads2'},
+    {'name': 'title3', 'language': 'len1', 'skill': 'skill_lvl', 'url_name': 'ads3'},
+    {'name': 'title4', 'language': 'len1', 'skill': 'skill_lvl', 'url_name': 'ads4'},
+    {'name': 'title5', 'language': 'len1', 'skill': 'skill_lvl', 'url_name': 'ads5'},
 ]
