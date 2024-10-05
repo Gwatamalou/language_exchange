@@ -2,12 +2,13 @@
 
 {% block content %}
 
-    <source src="https://youtu.be/33QsTkzd3pI?list=RD33QsTkzd3pI">
-    <video controls width="">
+    <div class="content">
+    <div style="display: grid; place-items: center;">
+    <video width="600" height="400" controls>
         <source src="https://youtu.be/33QsTkzd3pI?list=RD33QsTkzd3pI" type="video/webm">
         <source src="https://youtu.be/33QsTkzd3pI?list=RD33QsTkzd3pI" type="video/mp4">
         Ваш браузер не поддерживает встроенные видео :(
-
+    </video>
     </video>
 
     <div class="chat">
@@ -34,5 +35,6 @@
             <p>Nah, I dunno. Play soccer.. or learn more coding perhaps?</p>
             <span class="time-left">11:05</span>
         </div>
+    </div>
     </div>
 {% endblock %}
