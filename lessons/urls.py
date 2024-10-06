@@ -3,6 +3,6 @@ from lessons import views
 
 
 urlpatterns = [
-    path('', views.lesson, name='lesson'),
-    path('conference/', views.conference)
+    path('', views.show_user_lesson_view, name='lesson'),
+    path('conference/', views.show_conference_view)
 ]

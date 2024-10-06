@@ -5,10 +5,10 @@ from constants import LANGUAGE_LIST, LEVEL_SKILL
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    image = models.ImageField(upload_to='images/', blank=True, null=True)
+    avatar = models.ImageField(upload_to='images/', blank=True, null=True)
 
 
 class LanguageSkill(models.Model):
-    user_id = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     language = models.CharField(max_length=30, choices=LANGUAGE_LIST)
     level_skill = models.CharField(max_length=30, choices=LEVEL_SKILL)

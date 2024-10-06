@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <h1 id="title">Профиль</h1>
+    <div class="information">
+        <img id="avatar" src="{% static 'users/images/logo.png' %}" alt="ava">
+        <dl>
+            <dt>ID пользователя:</dt>
+            <dd>{{ user }}</dd>
+            <dt>Имя пользователя:</dt>
+            <dd>{{ user_name }}</dd>
+            <dt>Email:</dt>
+            <dd>{{ email }}</dd>
+            <dt>Пароль:</dt>
+            <dd><a href="#">Сменить пароль</a></dd>
+        </dl>
+    </div>
+
+    <div class="add_language_skill">
+        <select>
+            {% for len in language %}
+                <option>{{ len.1 }}</option>
+            {% endfor %}
+        </select>
+        <select>
+            {% for lvl in level %}
+                <option>{{ lvl.1 }}</option>
+            {% endfor %}
+        </select>
+        <button>Добавить</button>
+    </div>
+
+    {% include 'users/include/table_of_user_languages_and_skills.html' %}
+
+    <div>
+        <h2>Ваши языковые навыки:</h2>
+        <ul>
+            {% for language_skill in language_skill %}
+                <li>{{ language_skill }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+{% endblock %}

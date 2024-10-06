@@ -6,8 +6,9 @@ from django.shortcuts import render
 
 
 
-def advertisements_list(requests):
-    return render(requests, 'advertisements/index.html')
+def show_advertisements_list(requests):
+    return render(requests, 'advertisements/ads_list.html')
 
-def advertisements(request, slug_id):
+
+def show_selected_advertisement_view(request, slug_id):
     return render(request, 'advertisements/advertisement.html')
