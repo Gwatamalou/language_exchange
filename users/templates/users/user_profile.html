@@ -7,13 +7,12 @@
         <img id="avatar" src="{% static 'users/images/logo.png' %}" alt="ava">
         <dl>
             <dt>ID пользователя:</dt>
-            <dd>{{ user }}</dd>
+            <dd>{{ user.id }}</dd>
             <dt>Имя пользователя:</dt>
-            <dd>{{ user_name }}</dd>
+            <dd>{{ user.username }}</dd>
             <dt>Email:</dt>
-            <dd>{{ email }}</dd>
-            <dt>Пароль:</dt>
-            <dd><a href="#">Сменить пароль</a></dd>
+            <dd>{{ user.email }}</dd>
+            <dt><a href="#">Сменить пароль</a></dt>
         </dl>
     </div>
 
@@ -34,7 +33,6 @@
     {% include 'users/include/table_of_user_languages_and_skills.html' %}
 
     <div>
-        <h2>Ваши языковые навыки:</h2>
         <ul>
             {% for language_skill in language_skill %}
                 <li>{{ language_skill }}</li>
