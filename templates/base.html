@@ -4,9 +4,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="stylesheet" href="{% static 'users/css/style.css' %}" rel="stylesheet" />
-    <link rel="stylesheet" href="{% static 'advertisements/css/ads.css' %}" rel="stylesheet" />
-    <link rel="stylesheet" href="{% static 'lessons/css/lesson.css' %}" rel="stylesheet" />
+    <link rel="stylesheet" href="{% static 'users/css/style.css' %}" rel="stylesheet"/>
+    <link rel="stylesheet" href="{% static 'advertisements/css/ads.css' %}" rel="stylesheet"/>
+    <link rel="stylesheet" href="{% static 'lessons/css/lesson.css' %}" rel="stylesheet"/>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <link rel="shortcut icon" href="{% static 'users/images/logo.png' %}" type="image/x-icon">
     <title>{{ title }}</title>
@@ -18,13 +18,17 @@
     <ul>
         <li id="logo"><img src="\static\users\images\logo.png" alt="DialoGo"></li>
         {% for m in menu %}
-            <li><a href="{% url m.url_name %}">{{ m.title }}</a></li>
+            {% if m.title == 'Войти' and auth %}
+                 <li><a href="{% url 'user_profile' user.id %}">Профиль</a></li>
+            {% else %}
+                <li><a href="{% url m.url_name %}">{{ m.title }}</a></li>
+            {% endif %}
         {% endfor %}
     </ul>
 </nav>
 <div class="content">
-{% block content %}
-{% endblock %}
+    {% block content %}
+    {% endblock %}
 </div>
 
 </body>
