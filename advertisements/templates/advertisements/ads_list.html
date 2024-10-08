@@ -3,7 +3,9 @@
 
 {% block content %}
     <h1 id="title">Content ADS</h1>
-
+    <a href="{% url 'add-ads' %}">
+        <button type="button">Создать</button>
+    </a>
     {% include 'advertisements/include/ads_list.html' %}
 
 {% endblock %}

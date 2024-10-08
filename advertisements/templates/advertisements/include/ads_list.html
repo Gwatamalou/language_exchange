@@ -1,8 +1,7 @@
-{% load get_ads_tags %}
-{% get_ads as ads %}
+{#{% load get_ads_tags %}#}
 
 {% for a in ads %}
         <div id="core">
-            <p><a href="{{ a.url_name }}">{{ a.name }} {{ a.language }} {{ a.skill }}</a></p>
+            <p><a href="{{ a.id }}">{{ a.user.username }} {{ a.language_to_learn }}</a></p>
         </div>
 {% endfor %}

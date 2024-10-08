@@ -128,9 +128,9 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-LOGIN_URL = 'login/'
-LOGIN_REDIRECT_URL = 'login_redirect'
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = 'profile'
+LOGOUT_REDIRECT_URL = '/'
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
-SESSION_COOKIE_SECURE = False
-SESSION_EXPIRE_AT_BROWSER_CLOSE = False
+SESSION_COOKIE_NAME = 'sessionid'

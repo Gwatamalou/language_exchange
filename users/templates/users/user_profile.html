@@ -13,6 +13,10 @@
             <dt>Email:</dt>
             <dd>{{ user.email }}</dd>
             <dt><a href="{% url 'password_change' %}">Сменить пароль</a></dt>
+            <form method="POST" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button type="submit">Выйти</button>
+            </form>
         </dl>
     </div>
 

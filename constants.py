@@ -52,10 +52,10 @@ MENU = [
     {'title': 'Войти', 'url_name': 'login'},
 ]
 
-ADS = [
-    {'name': 'title1', 'language': 'len1', 'skill': 'skill_lvl', 'url_name': 'ads1'},
-    {'name': 'title2', 'language': 'len1', 'skill': 'skill_lvl', 'url_name': 'ads2'},
-    {'name': 'title3', 'language': 'len1', 'skill': 'skill_lvl', 'url_name': 'ads3'},
-    {'name': 'title4', 'language': 'len1', 'skill': 'skill_lvl', 'url_name': 'ads4'},
-    {'name': 'title5', 'language': 'len1', 'skill': 'skill_lvl', 'url_name': 'ads5'},
-]
+# ADS = [
+#     {'name': 'title1', 'language': 'len1', 'skill': 'skill_lvl', 'url_name': 'ads1'},
+#     {'name': 'title2', 'language': 'len1', 'skill': 'skill_lvl', 'url_name': 'ads2'},
+#     {'name': 'title3', 'language': 'len1', 'skill': 'skill_lvl', 'url_name': 'ads3'},
+#     {'name': 'title4', 'language': 'len1', 'skill': 'skill_lvl', 'url_name': 'ads4'},
+#     {'name': 'title5', 'language': 'len1', 'skill': 'skill_lvl', 'url_name': 'ads5'},
+# ]

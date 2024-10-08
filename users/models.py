@@ -5,6 +5,8 @@ from django.urls import reverse
 from constants import LANGUAGE_LIST, LEVEL_SKILL
 
 
+
+
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     avatar = models.ImageField(upload_to='images/', blank=True, null=True)

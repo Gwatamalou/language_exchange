@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>ADD</h1>
+    <form method="POST" action="{% url 'add-new-ads' %}">
+        {{ form }}
+        {% csrf_token %}
+        <button type="submit">Создать</button>
+    </form>
+{% endblock %}
