@@ -10,5 +10,5 @@ urlpatterns = [
     path('add-new-ads/', views.add_advertisement, name='add-new-ads'),
     path('<int:slug_id>/', views.show_selected_advertisement_view, name='ads'),
     path('choose/<int:slug_id>/', views.choose_advertisement_view, name='choose'),
-    path('respond/<int:notification_id>/', views.notification, name='notification'),
+    path('delete_das/<int:ads_id>/', views.delete_ads, name='delete_ads'),
 ]

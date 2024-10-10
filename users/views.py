@@ -1,13 +1,16 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import render, get_object_or_404, redirect
+
+from advertisements.models import Advertisement, Notification
 from constants import LANGUAGE_LIST, LEVEL_SKILL
 from django.contrib.auth.models import User
 from django.contrib.auth import views as auth_views
 from language_exchange.settings import LOGIN_REDIRECT_URL, LOGIN_URL
 from .forms import LanguageSkillForm
 from users.models import LanguageSkill
-from .services import register_user, get_user_data
+from .services import (register_user, get_user_data, add_language_skill, get_current_language, update_language_skill,
+                       check_skill_owner, get_notification)
 
 
 # Qwertyui1.
@@ -33,13 +36,10 @@ def register(request):
 @login_required
 def show_user_profile_view(request, user_id):
     """Отображение профиля пользователя"""
-
     user, user_language = get_user_data(user_id)
 
     if user != request.user:
         return redirect(LOGIN_URL)
-
-
 
     form = LanguageSkillForm()
 
@@ -60,26 +60,23 @@ def add_new_language(request):
     """Добавление информации о знании языка"""
     if request.method == 'POST':
         form = LanguageSkillForm(request.POST)
+        language_skill = add_language_skill(request.user, form)
 
-        if form.is_valid():
-            language_skill = form.save(commit=False)
-            language_skill.user = request.user
-            language_skill.save()
+        if language_skill:
             return redirect('user_profile', user_id=request.user.id)
 
 
 @login_required
 def update_language_skill_view(request, skill_id):
     """Обновление уровня языкового навыка"""
-    skill = get_object_or_404(LanguageSkill, id=skill_id)
+    skill = get_current_language(skill_id)
 
-    if skill.user != request.user:
+    if not check_skill_owner(skill, request.user):
         return redirect(LOGIN_URL)
 
     if request.method == 'POST':
         form = LanguageSkillForm(request.POST, instance=skill)
-        if form.is_valid():
-            form.save()
+        if update_language_skill(form):
             return redirect('user_profile', user_id=request.user.id)
     else:
         form = LanguageSkillForm(instance=skill)
@@ -95,13 +92,44 @@ def update_language_skill_view(request, skill_id):
 @login_required
 def delete_language_skill_view(request, skill_id):
     """удаление информации о знании языка"""
-    skill = get_object_or_404(LanguageSkill, id=skill_id)
+    skill = get_current_language(skill_id)
 
-    if skill.user == request.user:
+    if check_skill_owner(skill, request.user):
         skill.delete()
         return redirect('user_profile', user_id=request.user.id)
     else:
         return redirect(LOGIN_URL)
+
+
+@login_required
+def show_notification_view(request):
+    """отображение страницы уведомлений"""
+    notification = get_notification(request.user.id)
+
+    data = {
+        'auth': request.user.is_authenticated,
+        'notificat': notification,
+    }
+    return render(request, 'users/notification.html', context=data)
+
+
+
+@login_required
+def notification(request, notification_id):
+    """Страница отклика на уведомление принять/отклонить"""
+    notification = Notification.objects.get(id=notification_id, user=request.user)
+
+    if request.method == 'POST':
+        if 'accept' in request.POST:
+            notification.status = 'accepted'
+            notification.save()
+            return redirect('lesson')
+
+        elif 'decline' in request.POST:
+            notification.status = 'declined'
+            notification.save()
+            return redirect('ads_list')
+
 
 
 class CustomLoginView(auth_views.LoginView):

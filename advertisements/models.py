@@ -3,8 +3,7 @@ from django.contrib.auth.models import User
 from constants import LANGUAGE_LIST, LEVEL_SKILL
 
 class Advertisement(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    slug_id = models.SlugField(unique=True)
+    user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
     language_to_learn  = models.CharField(max_length=30, choices=LANGUAGE_LIST)
     language_level_to_learn = models.CharField(max_length=30, choices=LEVEL_SKILL)
 
