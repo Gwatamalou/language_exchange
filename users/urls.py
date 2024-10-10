@@ -10,8 +10,8 @@ urlpatterns = [
     path('password_change/', auth_views.PasswordChangeView.as_view(), name='password_change'),
     path('password_reset/', auth_views.PasswordResetView.as_view(), name='password_reset'),
     path('profile/<slug:user_id>/', views.show_user_profile_view, name='user_profile'),
-    path('add-skill/', views.add_new_language, name='add_skill'),
-    path('update-skill/<int:skill_id>/', views.update_language_skill_view, name='update_skill'),
-    path('delete-skill/<int:skill_id>/', views.delete_language_skill_view, name='delete_skill'),
+    path('skills/', views.add_new_language, name='add_skill'),
+    path('update_skill/<int:skill_id>/', views.update_language_skill_view, name='update_skill'),
+    path('delete_skill/<int:skill_id>/', views.delete_language_skill_view, name='delete_skill'),
 
 ]

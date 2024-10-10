@@ -5,6 +5,7 @@
     <h1 id="title">Профиль</h1>
     <div class="information">
         <img id="avatar" src="{% static 'users/images/logo.png' %}" alt="ava">
+
         <dl>
             <dt>ID пользователя:</dt>
             <dd>{{ user.id }}</dd>
@@ -16,6 +17,10 @@
             <form method="POST" action="{% url 'logout' %}">
             {% csrf_token %}
             <button type="submit">Выйти</button>
+            </form>
+             <form method="POST">
+            {% csrf_token %}
+            <button>Уведомления</button>
             </form>
         </dl>
     </div>

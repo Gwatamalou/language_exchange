@@ -1,19 +1,20 @@
 {% extends 'base.html' %}
-{% load get_ads_tags %}
+
 
 {% block content %}
 
     <h1 id="title">Nikname</h1>
 
-
-
-
     <div class="choose_lesson ">
         <img id="avatar" src="\static\users\images\logo.png" alt="ava">
         <div class="lesson_info">
-         <p id="description">descript</p>
+         <p id="description">description</p>
         <div class="lesson_ads">
-            <p>текущие объявление <button>назначить занятие</button></p>
+            <p>{{ advertisement.user.username }} {{ advertisement.language_to_learn }} {{ advertisement.language_level_to_learn }}
+            <form method="POST" action="{% url 'choose' advertisement.id %}">
+              {% csrf_token %}
+              <button type="submit">Выбрать</button>
+            </form>
         </div>
         </div>
     </div>

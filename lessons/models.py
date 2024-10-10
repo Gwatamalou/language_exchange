@@ -11,3 +11,5 @@ class Lesson(models.Model):
     language_to_learn_userB = models.CharField(max_length=30)
     date_lesson = models.DateTimeField(auto_now_add=True)
     duration = models.DurationField()
+
+

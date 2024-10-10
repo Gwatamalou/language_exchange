@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    {% for n in notificat %}
+        {{ n.responder }}<br>
+        <form method="post" action="{% url 'notification' n.id %}">
+        {% csrf_token %}
+        <button type="submit" name="accept">Принять</button>
+        <button type="submit" name="decline">Отклонить</button>
+    </form>
+
+    {% endfor %}
+    
+
+
+{% endblock %}

@@ -8,7 +8,7 @@ urlpatterns = [
     path('', views.show_advertisements_list, name='ads_list'),
     path('add-ads/', views.show_make_advertisement_view, name='add-ads'),
     path('add-new-ads/', views.add_advertisement, name='add-new-ads'),
-    path('<slug:slug_id>/', views.show_selected_advertisement_view, name='ads'),
-
-
+    path('<int:slug_id>/', views.show_selected_advertisement_view, name='ads'),
+    path('choose/<int:slug_id>/', views.choose_advertisement_view, name='choose'),
+    path('respond/<int:notification_id>/', views.notification, name='notification'),
 ]

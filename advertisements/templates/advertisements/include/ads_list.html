@@ -1,7 +1,7 @@
-{#{% load get_ads_tags %}#}
-
 {% for a in ads %}
         <div id="core">
-            <p><a href="{{ a.id }}">{{ a.user.username }} {{ a.language_to_learn }}</a></p>
+        {% if request.resolver_match.kwargs.slug_id != a.id %}
+            <p><a href="{% url "ads" a.id %}">{{ a.user.username }} {{ a.language_to_learn }} {{ a.language_level_to_learn }}</a></p>
+        {% endif %}
         </div>
 {% endfor %}
