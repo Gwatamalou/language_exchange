@@ -1,14 +1,14 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, redirect
 
-from advertisements.models import Advertisement, Notification
+from advertisements.models import Notification
 from constants import LANGUAGE_LIST, LEVEL_SKILL
-from django.contrib.auth.models import User
+
 from django.contrib.auth import views as auth_views
 from language_exchange.settings import LOGIN_REDIRECT_URL, LOGIN_URL
 from .forms import LanguageSkillForm
-from users.models import LanguageSkill
+
 from .services import (register_user, get_user_data, add_language_skill, get_current_language, update_language_skill,
                        check_skill_owner, get_notification)
 
@@ -126,9 +126,12 @@ def notification(request, notification_id):
             return redirect('lesson')
 
         elif 'decline' in request.POST:
-            notification.status = 'declined'
-            notification.save()
-            return redirect('ads_list')
+            notification.delete()
+            return redirect('notification_list')
+
+@login_required
+def tototo(request):
+    return redirect('lesson')
 
 
 

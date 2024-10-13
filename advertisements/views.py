@@ -1,12 +1,9 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
-
 from advertisements.froms import AdvertisementForm
 from advertisements.models import Advertisement, Notification
 from advertisements.services import get_advertisement_user, get_current_advertisement, add_new_advertisement, \
     add_new_notification, get_all_objects
-
-
 
 def show_advertisements_list(request):
     """список объявление """
@@ -73,4 +70,6 @@ def choose_advertisement_view(request, slug_id):
 
     add_new_notification(request.user, advertisement)
 
+
     return redirect('lesson')
+

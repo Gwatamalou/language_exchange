@@ -18,10 +18,6 @@
             {% csrf_token %}
             <button type="submit">Выйти</button>
             </form>
-             <form method="POST" action="{% url 'notification_list' %}">
-            {% csrf_token %}
-            <button>Уведомления</button>
-            </form>
         </dl>
     </div>
 

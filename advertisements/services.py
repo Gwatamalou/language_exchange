@@ -27,3 +27,4 @@ def add_new_notification(user, ads):
         advertisement=ads,
         status='pending',
     )
+
