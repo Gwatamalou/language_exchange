@@ -15,6 +15,5 @@ urlpatterns = [
     path('delete_skill/<int:skill_id>/', views.delete_language_skill_view, name='delete_skill'),
     path('notification/', views.show_notification_view, name='notification_list'),
     path('notification/<int:notification_id>/', views.notification, name='notification'),
-    path('tototo/', views.tototo, name='tototo'),
 
 ]

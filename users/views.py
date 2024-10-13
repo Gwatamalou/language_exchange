@@ -129,12 +129,6 @@ def notification(request, notification_id):
             notification.delete()
             return redirect('notification_list')
 
-@login_required
-def tototo(request):
-    return redirect('lesson')
-
-
-
 class CustomLoginView(auth_views.LoginView):
     def get_success_url(self):
         """Пусть редиректа после авторизации"""
