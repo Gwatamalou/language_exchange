@@ -116,7 +116,7 @@ def show_notification_view(request):
 
 @login_required
 def notification(request, notification_id):
-    """Страница отклика на уведомление принять/отклонить"""
+    """Обработчик отклика на уведомление принять/отклонить"""
     notification = Notification.objects.get(id=notification_id, user=request.user)
 
     if request.method == 'POST':
