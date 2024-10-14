@@ -3,10 +3,10 @@
         <li>
         <div id="core">
             <p>{{ lang.language }} {{ lang.level_skill }}</p>
-            <a href="{% url 'update_skill' lang.id %}">
+            <a href="{% url 'update-skill' lang.id %}">
                     <button type="button">Обновить</button>
                 </a>
-            <form method="POST" action="{% url 'delete_skill' lang.id %}">
+            <form method="POST" action="{% url 'delete-skill' lang.id %}">
                     {% csrf_token %}
                     <button type="submit">Удалить</button>
             </form>

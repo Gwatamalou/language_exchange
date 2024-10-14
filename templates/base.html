@@ -19,7 +19,7 @@
         <li id="logo"><img src="\static\users\images\logo.png" alt="DialoGo"></li>
         {% for m in menu %}
             {% if m.title == 'Войти' and auth %}
-                 <li><a href="{% url 'user_profile' user.id %}">Профиль</a></li>
+                 <li><a href="{% url 'user-profile' user.id %}">Профиль</a></li>
             {% else %}
                 <li><a href="{% url m.url_name %}">{{ m.title }}</a></li>
             {% endif %}

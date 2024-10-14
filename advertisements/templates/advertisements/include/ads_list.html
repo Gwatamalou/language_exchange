@@ -3,7 +3,7 @@
         {% if request.resolver_match.kwargs.slug_id != a.id %}
             <p><a href="{% url "ads" a.id %}">{{ a.user.username }} {{ a.language_to_learn }} {{ a.language_level_to_learn }}</a></p>
             {% if user_id == a.user.id %}
-                <form method="POST" action="{% url "delete_ads" a.id %}">
+                <form method="POST" action="{% url "delete-ads" a.id %}">
                     {% csrf_token %}
                     <button type="submit">Удалить</button>
             </form>

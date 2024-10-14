@@ -56,18 +56,18 @@ def show_user_profile_view(request, user_id):
 
 
 @login_required
-def add_new_language(request):
+def create_language_handler(request):
     """Добавление информации о знании языка"""
     if request.method == 'POST':
         form = LanguageSkillForm(request.POST)
         language_skill = add_language_skill(request.user, form)
 
         if language_skill:
-            return redirect('user_profile', user_id=request.user.id)
+            return redirect('user-profile', user_id=request.user.id)
 
 
 @login_required
-def update_language_skill_view(request, skill_id):
+def update_language_skill_handler(request, skill_id):
     """Обновление уровня языкового навыка"""
     skill = get_current_language(skill_id)
 
@@ -77,7 +77,7 @@ def update_language_skill_view(request, skill_id):
     if request.method == 'POST':
         form = LanguageSkillForm(request.POST, instance=skill)
         if update_language_skill(form):
-            return redirect('user_profile', user_id=request.user.id)
+            return redirect('user-profile', user_id=request.user.id)
     else:
         form = LanguageSkillForm(instance=skill)
 
@@ -90,20 +90,20 @@ def update_language_skill_view(request, skill_id):
 
 
 @login_required
-def delete_language_skill_view(request, skill_id):
+def delete_language_skill_handler(request, skill_id):
     """удаление информации о знании языка"""
     skill = get_current_language(skill_id)
 
     if check_skill_owner(skill, request.user):
         skill.delete()
-        return redirect('user_profile', user_id=request.user.id)
+        return redirect('user-profile', user_id=request.user.id)
     else:
         return redirect(LOGIN_URL)
 
 
 @login_required
 def show_notification_view(request):
-    """отображение страницы уведомлений"""
+    """Отображение страницы уведомлений"""
     notification = get_notification(request.user.id)
 
     data = {
@@ -115,7 +115,7 @@ def show_notification_view(request):
 
 
 @login_required
-def notification(request, notification_id):
+def notification_response_handler(request, notification_id):
     """Обработчик отклика на уведомление принять/отклонить"""
     notification = Notification.objects.get(id=notification_id, user=request.user)
 
@@ -127,7 +127,7 @@ def notification(request, notification_id):
 
         elif 'decline' in request.POST:
             notification.delete()
-            return redirect('notification_list')
+            return redirect('notification-list')
 
 class CustomLoginView(auth_views.LoginView):
     def get_success_url(self):

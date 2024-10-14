@@ -47,14 +47,14 @@ def show_make_advertisement_view(request):
     return render(request, 'advertisements/add_ads.html', context=data)
 
 
-def add_advertisement(request):
+def create_advertisement_handler(request):
     """добавление нового объявления в бд"""
     if request.method == 'POST':
         form = AdvertisementForm(request.POST)
         return add_new_advertisement(request.user, form)
 
 
-def delete_ads(request, ads_id):
+def delete_ads_handler(request, ads_id):
     ads = get_object_or_404(Advertisement, id=ads_id)
 
     if ads.user_id == request.user.id:
@@ -64,7 +64,7 @@ def delete_ads(request, ads_id):
 
 
 @login_required
-def choose_advertisement_view(request, slug_id):
+def choose_advertisement_handler(request, slug_id):
     """Обработка выбора объявления"""
     advertisement = Advertisement.objects.get(id=slug_id)
 
