@@ -62,7 +62,6 @@ def delete_ads_handler(request, ads_id):
         return redirect('ads_list')
 
 
-
 @login_required
 def choose_advertisement_handler(request, slug_id):
     """Обработка выбора объявления"""
