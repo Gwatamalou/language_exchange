@@ -16,7 +16,9 @@
 {% get_menu as menu %}
 <nav class="menu">
     <ul>
-        <li id="logo"><img src="\static\users\images\logo.png" alt="DialoGo"></li>
+        <li id="logo"><a href="{% url "main" %}">
+            <img src="\static\users\images\logo.png" alt="DialoGo">
+        </a></li>
         {% for m in menu %}
             {% if m.title == 'Войти' and auth %}
                  <li><a href="{% url 'user-profile' user.id %}">Профиль</a></li>

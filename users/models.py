@@ -14,5 +14,5 @@ class UserProfile(models.Model):
 
 class LanguageSkill(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    language = models.CharField(max_length=30, choices=LANGUAGE_LIST)
-    level_skill = models.CharField(max_length=30, choices=LEVEL_SKILL)
+    language = models.CharField(max_length=30, choices=LANGUAGE_LIST, default='')
+    level_skill = models.CharField(max_length=30, choices=LEVEL_SKILL, default='')

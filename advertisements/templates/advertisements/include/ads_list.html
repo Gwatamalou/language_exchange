@@ -1,3 +1,4 @@
+<div class="content-list">
 {% for a in ads %}
         <div id="core">
         {% if request.resolver_match.kwargs.slug_id != a.id %}
@@ -12,3 +13,4 @@
         {% endif %}
         </div>
 {% endfor %}
+</div>

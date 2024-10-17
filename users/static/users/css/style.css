@@ -1,5 +1,36 @@
 body {
+    background: #edeef5;
+    margin: 0;
+    padding: 0;
     width: 100%;
+    font-family: "Comic Sans MS", serif;
+}
+
+
+h2 {
+    font-size: 26px;
+    font-weight: bolder;
+}
+
+h1 {
+    font-size: 30px;
+    font-weight: bolder;
+}
+
+button {
+    padding: 10px;
+    background-color:  #34D0B2;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    font-family: "Comic Sans MS", serif;
+}
+
+
+button:hover {
+    background-color:  #60FCA2;
 }
 
 ul {
@@ -7,15 +38,17 @@ ul {
 }
 
 .content {
-    margin-right: 15%;
-    margin-left: 15%;
+    max-width: 960px;
+    margin: 0 auto;
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
 }
 
 /* стили меню */
 
 .menu {
-    background: #eedfe2;
-    border-radius: 0px 0px 10px 10px;
+    background:  #53B3FF;
 }
 .menu ul {
         display: flex;
@@ -28,6 +61,19 @@ ul {
 
 .menu ul li {
     margin-left: 20px;
+
+}
+
+.menu ul li a{
+    color:  #e4d7c5;
+    font-size: 20px;
+    font-family: "Comic Sans MS", serif;
+    font-weight: bolder;
+    text-decoration: none;
+}
+
+.menu ul li a:hover{
+    color: #ffffff;
 }
 
 #logo {
@@ -42,11 +88,6 @@ ul {
 
 #title {
     text-align: center;
-}
-
-.menu ul li a {
-    text-decoration: none;
-    font-size: 16px;
 }
 
 /* стили профиля */
@@ -64,12 +105,86 @@ ul {
     border-radius: 10%;
 }
 
-.information ul{
+.information dl {
     margin-left: 150px;
 }
 
-.information ul li {
-    margin-bottom: 10px;
+.information dl dt {
+    font-weight: bold;
+    margin-bottom: 5px;  /* Отступ между названием и значением */
+}
+
+.information dl dd {
+    margin-left: 0;
+    margin-bottom: 15px;
 }
 
 
+.content-list {
+    width: 100%;
+}
+
+#core {
+    display: flex;
+    align-items: center;
+    padding-left: 15px;
+    background: #53B3FF;
+    width: 100%;
+    margin-top: 10px;
+    border-radius: 50px;
+}
+
+
+#core a{
+    color:  #4c3060;
+    font-size: 16px;
+    font-family: "Comic Sans MS", serif;
+    text-decoration: none;
+}
+
+
+
+
+/*авторизация*/
+
+.auth-container {
+    display: flex;
+    justify-content: center;
+    align-items: center ;
+}
+
+.login {
+    background-color: #fff;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    width: 300px;
+    text-align: center;
+}
+
+.login form div {
+    margin-bottom: 15px;
+}
+
+.login form label {
+    margin-bottom: 5px;        /* Отступ между лейблом и полем */
+}
+
+.login form input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.login a {
+    display: block;
+    margin-top: 15px;
+    color: #53B3FF;
+    text-decoration: none;
+}
+
+.login a:hover {
+    text-decoration: underline;
+}

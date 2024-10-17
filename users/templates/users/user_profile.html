@@ -7,12 +7,10 @@
         <img id="avatar" src="{% static 'users/images/logo.png' %}" alt="ava">
 
         <dl>
-            <dt>ID пользователя:</dt>
+            <dt>ID</dt>
             <dd>{{ user.id }}</dd>
-            <dt>Имя пользователя:</dt>
+            <dt>Имя</dt>
             <dd>{{ user.username }}</dd>
-            <dt>Email:</dt>
-            <dd>{{ user.email }}</dd>
             <dt><a href="{% url 'password-change' %}">Сменить пароль</a></dt>
             <form method="POST" action="{% url 'logout' %}">
             {% csrf_token %}
@@ -24,7 +22,8 @@
     <div class="add_language_skill">
         <form method="POST" action="{% url 'create-skill' %}">
         {% csrf_token %}
-        {{ form }}
+        {{ form.language }}
+        {{ form.level_skill }}
         <button>Добавить</button>
         </form>
     </div>

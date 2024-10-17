@@ -1,16 +1,14 @@
-<ul>
-    {% for lang in user_language%}
-        <li>
+<div class="content-list">
+    {% for lang in user_language %}
         <div id="core">
             <p>{{ lang.language }} {{ lang.level_skill }}</p>
             <a href="{% url 'update-skill' lang.id %}">
-                    <button type="button">Обновить</button>
-                </a>
+                <button type="button">Обновить</button>
+            </a>
             <form method="POST" action="{% url 'delete-skill' lang.id %}">
-                    {% csrf_token %}
-                    <button type="submit">Удалить</button>
+                {% csrf_token %}
+                <button type="submit">Удалить</button>
             </form>
         </div>
-        </li>
     {% endfor %}
-</ul>
+</div>
