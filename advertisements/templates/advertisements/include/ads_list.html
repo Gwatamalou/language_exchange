@@ -1,16 +1,18 @@
 <div class="content-list">
-{% for a in ads %}
-        <div id="core">
-        {% if request.resolver_match.kwargs.slug_id != a.id %}
-            <p><a href="{% url "ads" a.id %}">{{ a.user.username }} {{ a.language_to_learn }} {{ a.language_level_to_learn }}</a></p>
-            {% if user_id == a.user.id %}
-                <form method="POST" action="{% url "delete-ads" a.id %}">
-                    {% csrf_token %}
-                    <button type="submit">Удалить</button>
-            </form>
-            {% endif %}
+    {% for a in ads %}
+        <a href="{% url "ads" a.id %}">
+            <div id="core">
+                {% if request.resolver_match.kwargs.slug_id != a.id %}
+                    <p>{{ a.user.username }} {{ a.language_to_learn }} {{ a.language_level_to_learn }}</p>
+                    {% if user_id == a.user.id %}
+                        <form method="POST" action="{% url "delete-ads" a.id %}">
+                            {% csrf_token %}
+                            <button type="submit">Удалить</button>
+                        </form>
+                    {% endif %}
 
-        {% endif %}
-        </div>
-{% endfor %}
+                {% endif %}
+            </div>
+        </a>
+    {% endfor %}
 </div>

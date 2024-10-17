@@ -111,7 +111,7 @@ ul {
 
 .information dl dt {
     font-weight: bold;
-    margin-bottom: 5px;  /* Отступ между названием и значением */
+    margin-bottom: 5px;
 }
 
 .information dl dd {
@@ -124,23 +124,28 @@ ul {
     width: 100%;
 }
 
-#core {
-    display: flex;
-    align-items: center;
-    padding-left: 15px;
-    background: #53B3FF;
-    width: 100%;
-    margin-top: 10px;
-    border-radius: 50px;
-}
-
-
-#core a{
+.content-list a {
     color:  #4c3060;
     font-size: 16px;
     font-family: "Comic Sans MS", serif;
     text-decoration: none;
 }
+
+.content-list a:hover {
+    color: brown;
+}
+
+#core {
+    display: flex;
+    align-items: center;
+    padding-left: 15px;
+    background: #fff;
+    border-radius: 50px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    width: 100%;
+    margin-top: 10px;
+}
+
 
 
 
