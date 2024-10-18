@@ -17,20 +17,32 @@ h1 {
     font-weight: bolder;
 }
 
+select {
+    font-family: "Comic Sans MS", serif;
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
 button {
     padding: 10px;
-    background-color:  #34D0B2;
+    background-color:  #53B3FF;
     border: none;
-    border-radius: 5px;
+    border-radius: 25px;
     color: #fff;
     font-size: 16px;
     cursor: pointer;
     font-family: "Comic Sans MS", serif;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
 
 button:hover {
-    background-color:  #60FCA2;
+    background-color:  blue;
+}
+
+button:active {
+    box-shadow: none;
 }
 
 ul {
@@ -48,7 +60,7 @@ ul {
 /* стили меню */
 
 .menu {
-    background:  #53B3FF;
+    background:  #53B3F0;
 }
 .menu ul {
         display: flex;
@@ -146,6 +158,18 @@ ul {
     margin-top: 10px;
 }
 
+#button-in-form {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-right: 15px;
+    margin-left: auto;
+}
+#button-in-form a,
+#button-in-form form {
+    margin: 0;
+}
+
 
 
 
@@ -172,7 +196,7 @@ ul {
 }
 
 .login form label {
-    margin-bottom: 5px;        /* Отступ между лейблом и полем */
+    margin-bottom: 5px;
 }
 
 .login form input {

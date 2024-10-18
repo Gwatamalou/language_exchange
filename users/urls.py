@@ -1,4 +1,7 @@
+from django.conf.urls.static import static
 from django.urls import path
+
+from language_exchange import settings
 from . import views
 from django.contrib.auth import views as auth_views
 
@@ -15,5 +18,9 @@ urlpatterns = [
     path('delete_skill/<int:skill_id>/', views.delete_language_skill_handler, name='delete-skill'),
     path('notification/', views.show_notification_view, name='notification-list'),
     path('notification/<int:notification_id>/', views.notification_response_handler, name='notification'),
+    path('update-avatar/', views.update_avatar, name='update-avatar'),
 
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

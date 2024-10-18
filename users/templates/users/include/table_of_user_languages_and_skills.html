@@ -1,7 +1,9 @@
 <div class="content-list">
     {% for lang in user_language %}
         <div id="core">
-            <p>{{ lang.language }} {{ lang.level_skill }}</p>
+            <p>{{ lang.language }} | {{ lang.level_skill }}</p>
+
+            <div id="button-in-form">
             <a href="{% url 'update-skill' lang.id %}">
                 <button type="button">Обновить</button>
             </a>
@@ -9,6 +11,8 @@
                 {% csrf_token %}
                 <button type="submit">Удалить</button>
             </form>
+            </div>
+
         </div>
     {% endfor %}
 </div>

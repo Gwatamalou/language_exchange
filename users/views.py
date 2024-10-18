@@ -7,7 +7,8 @@ from constants import LANGUAGE_LIST, LEVEL_SKILL
 
 from django.contrib.auth import views as auth_views
 from language_exchange.settings import LOGIN_REDIRECT_URL, LOGIN_URL
-from .forms import LanguageSkillForm
+from .forms import LanguageSkillForm, AvatarForm
+from .models import UserProfile
 
 from .services import (register_user, get_user_data, add_language_skill, get_current_language, update_language_skill,
                        check_skill_owner, get_notification)
@@ -26,6 +27,7 @@ def register(request):
         form = UserCreationForm(request.POST)
         user = register_user(form)
         if user:
+            UserProfile.objects.create(user=user)
             return redirect(LOGIN_URL)
     else:
         form = UserCreationForm()
@@ -41,8 +43,11 @@ def show_user_profile_view(request, user_id):
     if user != request.user:
         return redirect(LOGIN_URL)
 
-    form = LanguageSkillForm()
+    user_profile = UserProfile.objects.get(user_id=request.user.id)
+    avatar_url = user_profile.avatar.url if user_profile.avatar else None
+    print(avatar_url)
 
+    form = LanguageSkillForm()
     data = {
         'title': 'User',
         'language': LANGUAGE_LIST,
@@ -51,6 +56,7 @@ def show_user_profile_view(request, user_id):
         'user': user,
         'user_language': user_language,
         'form': form,
+        'avatar_url': avatar_url,
     }
     return render(request, 'users/user_profile.html', context=data)
 
@@ -100,6 +106,19 @@ def delete_language_skill_handler(request, skill_id):
     else:
         return redirect(LOGIN_URL)
 
+@login_required
+def update_avatar(request):
+    if request.method == 'POST':
+        try:
+            profile = request.user.userprofile
+        except UserProfile.DoesNotExist:
+            profile = UserProfile.objects.create(user=request.user)
+
+        if request.FILES.get('avatar'):
+            profile.avatar = request.FILES['avatar']
+            profile.save()
+
+    return redirect('user-profile', user_id=request.user.id)
 
 @login_required
 def show_notification_view(request):

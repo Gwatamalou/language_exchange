@@ -4,7 +4,16 @@
 {% block content %}
     <h1 id="title">Профиль</h1>
     <div class="information">
-        <img id="avatar" src="{% static 'users/images/logo.png' %}" alt="ava">
+
+
+        <form id="avatar-form" method="POST" enctype="multipart/form-data" action="{% url 'update-avatar' %}">
+            {% csrf_token %}
+            <img id="avatar" src="{{ avatar_url }}" alt="avatar">
+
+            <input type="file" id="avatar-input" name="avatar" style="display: none;" accept="image/*">
+        </form>
+
+{#        <img id="avatar" src="{% static 'users/images/logo.png' %}" alt="ava">#}
 
         <dl>
             <dt>ID</dt>
@@ -13,29 +22,31 @@
             <dd>{{ user.username }}</dd>
             <dt><a href="{% url 'password-change' %}">Сменить пароль</a></dt>
             <form method="POST" action="{% url 'logout' %}">
-            {% csrf_token %}
-            <button type="submit">Выйти</button>
+                {% csrf_token %}
+                <button type="submit">Выйти</button>
             </form>
         </dl>
     </div>
 
     <div class="add_language_skill">
         <form method="POST" action="{% url 'create-skill' %}">
-        {% csrf_token %}
-        {{ form.language }}
-        {{ form.level_skill }}
-        <button>Добавить</button>
+            {% csrf_token %}
+            {{ form.language }}
+            {{ form.level_skill }}
+            <button>Добавить</button>
         </form>
     </div>
 
     {% include 'users/include/table_of_user_languages_and_skills.html' %}
 
-    <div>
-        <ul>
-            {% for language_skill in language_skill %}
-                <li>{{ language_skill }}</li>
-            {% endfor %}
-        </ul>
-    </div>
 
+    <script>
+        document.getElementById("avatar").addEventListener("click", function () {
+            document.getElementById("avatar-input").click();
+        });
+
+        document.getElementById("avatar-input").addEventListener("change", function () {
+            document.getElementById("avatar-form").submit();
+        });
+    </script>
 {% endblock %}
