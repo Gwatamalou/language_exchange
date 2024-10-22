@@ -2,41 +2,39 @@
 
 {% block content %}
 
-  <h1>Room: {{ title }}</h1>
-<label for="username">Имя пользователя: </label>
-<input id="username" type="text" size="15" placeholder="Введите ваше имя">
-<div id="chat-log"></div>
-<input id="chat-message-input" type="text" size="100">
-<button id="chat-message-submit">Send</button>
+    <h1>Room: {{ room_name }}</h1>
+    <div id="chat-log"></div>
+    <input id="chat-message-input" type="text" size="100">
+    <button id="chat-message-submit">Send</button>
+    <button id="end-chat">Закончить</button>
 
 
-<script>
-    const roomName = "{{ room_name }}";
-    const chatSocket = new WebSocket(
-        'ws://' + window.location.host + '/ws/chat/' + roomName + '/');
+    <script>
+        const roomName = "{{ room_name }}";
+        const chatSocket = new WebSocket(
+            'ws://' + window.location.host + '/ws/chat/' + roomName + '/');
 
-    chatSocket.onmessage = function (e) {
-        const data = JSON.parse(e.data);
-        const chatLog = document.querySelector('#chat-log');
-        chatLog.innerHTML += '<br><b>' + data.username + ':</b> ' + data.message;
+        chatSocket.onmessage = function (e) {
+            const data = JSON.parse(e.data);
+            const chatLog = document.querySelector('#chat-log');
+            chatLog.innerHTML += '<br><b>' + data.username + ':</b> ' + data.message;
 
-        // Прокрутка вниз
-        chatLog.scrollTop = chatLog.scrollHeight;
-    };
+            chatLog.scrollTop = chatLog.scrollHeight;
+        };
 
-    document.querySelector('#chat-message-submit').onclick = function () {
-        const usernameInputDom = document.querySelector('#username');
-        const username = usernameInputDom.value || 'Аноним'; // Если имя не указано, будет "Аноним"
+        document.querySelector('#chat-message-submit').onclick = function () {
+            const usernameInputDom = document.querySelector('#username');
+            const username = usernameInputDom.value || 'Аноним';
 
-        const messageInputDom = document.querySelector('#chat-message-input');
-        const message = messageInputDom.value;
+            const messageInputDom = document.querySelector('#chat-message-input');
+            const message = messageInputDom.value;
 
-        chatSocket.send(JSON.stringify({
-            'username': username,
-            'message': message
-        }));
+            chatSocket.send(JSON.stringify({
+                'username': username,
+                'message': message
+            }));
 
-        messageInputDom.value = '';
-    };
-</script>
+            messageInputDom.value = '';
+        };
+    </script>
 {% endblock %}
