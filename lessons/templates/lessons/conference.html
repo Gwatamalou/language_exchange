@@ -5,12 +5,13 @@
     <h1>Room: {{ room_name }}</h1>
     <div id="chat-log"></div>
     <input id="chat-message-input" type="text" size="100">
-    <button id="chat-message-submit">Send</button>
+    <button id="chat-message-submit">Отправить</button>
     <button id="end-chat">Закончить</button>
 
 
     <script>
         const roomName = "{{ room_name }}";
+        const username = "{{ request.user.username }}"
         const chatSocket = new WebSocket(
             'ws://' + window.location.host + '/ws/chat/' + roomName + '/');
 
@@ -23,9 +24,6 @@
         };
 
         document.querySelector('#chat-message-submit').onclick = function () {
-            const usernameInputDom = document.querySelector('#username');
-            const username = usernameInputDom.value || 'Аноним';
-
             const messageInputDom = document.querySelector('#chat-message-input');
             const message = messageInputDom.value;
 
@@ -36,5 +34,9 @@
 
             messageInputDom.value = '';
         };
+
+            document.querySelector('#end-chat').onclick = function () {
+        window.location.href = "{% url 'ads_list' %}";
+    };
     </script>
 {% endblock %}

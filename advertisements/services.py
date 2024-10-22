@@ -21,10 +21,11 @@ def add_new_advertisement(user, form):
     return None
 
 def add_new_notification(user, ads):
+    if not Notification.objects.filter(responder=user, user=ads.user, advertisement=ads).exists():
         Notification.objects.create(
-        responder=user,
-        user=ads.user,
-        advertisement=ads,
-        status='pending',
-    )
+            responder=user,
+            user=ads.user,
+            advertisement=ads,
+            room=f'{user}{ads.user.username}',
+        )
 

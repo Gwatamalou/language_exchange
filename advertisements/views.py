@@ -64,11 +64,9 @@ def delete_ads_handler(request, ads_id):
 
 @login_required
 def choose_advertisement_handler(request, slug_id):
-    """Обработка выбора объявления"""
     advertisement = Advertisement.objects.get(id=slug_id)
 
     add_new_notification(request.user, advertisement)
 
-
-    return redirect('lesson')
-
+    room=f'{request.user}{advertisement.user.username}'
+    return redirect('lesson', room)

@@ -12,7 +12,13 @@ class Notification(models.Model):
     responder = models.ForeignKey(User, related_name='responder', on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     advertisement = models.ForeignKey(Advertisement, on_delete=models.CASCADE)
-    status = models.CharField(max_length=20, choices=(('pending', 'Pending'), ('accepted', 'Accepted'), ('declined', 'Declined')), default='pending')
+    room = models.CharField(max_length=150, default='None')
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['responder', 'user', 'advertisement'], name='unique_notification')
+        ]
+
 
     def __str__(self):
-        return f"Notification for {self.user.username} about {self.advertisement.title} from {self.responder.username}"
+        return f"Notification for {self.user.username} about from {self.responder.username}"

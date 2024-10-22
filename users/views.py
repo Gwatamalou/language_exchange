@@ -140,9 +140,9 @@ def notification_response_handler(request, notification_id):
 
     if request.method == 'POST':
         if 'accept' in request.POST:
-            notification.status = 'accepted'
-            notification.save()
-            return redirect('lesson')
+            room = notification.room
+            notification.delete()
+            return redirect('lesson', room)
 
         elif 'decline' in request.POST:
             notification.delete()
