@@ -2,39 +2,41 @@
 
 {% block content %}
 
-    <div class="content">
-    <div style="display: grid; place-items: center;">
-    <video width="600" height="400" controls>
-        <source src="https://youtu.be/33QsTkzd3pI?list=RD33QsTkzd3pI" type="video/webm">
-        <source src="https://youtu.be/33QsTkzd3pI?list=RD33QsTkzd3pI" type="video/mp4">
-        Ваш браузер не поддерживает встроенные видео :(
-    </video>
-    </video>
+  <h1>Room: {{ title }}</h1>
+<label for="username">Имя пользователя: </label>
+<input id="username" type="text" size="15" placeholder="Введите ваше имя">
+<div id="chat-log"></div>
+<input id="chat-message-input" type="text" size="100">
+<button id="chat-message-submit">Send</button>
 
-    <div class="chat">
-        <div class="container">
-            <img src="/w3images/bandmember.jpg" alt="Avatar">
-            <p>Hello. How are you today?</p>
-            <span class="time-right">11:00</span>
-        </div>
 
-        <div class="container darker">
-            <img src="/w3images/avatar_g2.jpg" alt="Avatar" class="right">
-            <p>Hey! I'm fine. Thanks for asking!</p>
-            <span class="time-left">11:01</span>
-        </div>
+<script>
+    const roomName = "{{ room_name }}";
+    const chatSocket = new WebSocket(
+        'ws://' + window.location.host + '/ws/chat/' + roomName + '/');
 
-        <div class="container">
-            <img src="/w3images/bandmember.jpg" alt="Avatar">
-            <p>Sweet! So, what do you wanna do today?</p>
-            <span class="time-right">11:02</span>
-        </div>
+    chatSocket.onmessage = function (e) {
+        const data = JSON.parse(e.data);
+        const chatLog = document.querySelector('#chat-log');
+        chatLog.innerHTML += '<br><b>' + data.username + ':</b> ' + data.message;
 
-        <div class="container darker">
-            <img src="/w3images/avatar_g2.jpg" alt="Avatar" class="right">
-            <p>Nah, I dunno. Play soccer.. or learn more coding perhaps?</p>
-            <span class="time-left">11:05</span>
-        </div>
-    </div>
-    </div>
+        // Прокрутка вниз
+        chatLog.scrollTop = chatLog.scrollHeight;
+    };
+
+    document.querySelector('#chat-message-submit').onclick = function () {
+        const usernameInputDom = document.querySelector('#username');
+        const username = usernameInputDom.value || 'Аноним'; // Если имя не указано, будет "Аноним"
+
+        const messageInputDom = document.querySelector('#chat-message-input');
+        const message = messageInputDom.value;
+
+        chatSocket.send(JSON.stringify({
+            'username': username,
+            'message': message
+        }));
+
+        messageInputDom.value = '';
+    };
+</script>
 {% endblock %}
