@@ -110,6 +110,10 @@ ul {
     align-items: center;
 }
 
+#avatar-container {
+    position: relative;
+    display: inline-block;
+}
 
 #avatar {
     margin-left: 20px;
@@ -117,6 +121,27 @@ ul {
     height: 300px;
     border-radius: 10%;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+#avatar:hover {
+    cursor: pointer;
+    box-shadow: none;
+}
+
+#hover-text {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 10px;
+    border-radius: 5px;
+    display: none;
+}
+
+#avatar-container:hover #hover-text {
+    display: block;
 }
 
 .information dl {

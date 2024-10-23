@@ -29,20 +29,22 @@ def get_user_data(user_id):
 def add_language_skill(user, form):
     if form.is_valid():
         language_skill = form.save(commit=False)
-        language_skill.user = user
-        language_skill.save()
-        return language_skill
-    return None
+        if not LanguageSkill.objects.filter(user=user, language=language_skill.language, level_skill=language_skill.level_skill).exists():
+            language_skill.user = user
+            language_skill.save()
+            return language_skill
 
 
 def get_current_language(skill_id):
     """возвращает данные о выбранном языке и уровне владения"""
     return get_object_or_error(LanguageSkill, id=skill_id)
 
-def update_language_skill(form):
+def update_language_skill(user, form):
     """Обновление языкового навыка"""
     if form.is_valid():
-        return form.save()
+        language_skill = form.save(commit=False)
+        if not LanguageSkill.objects.filter(user=user, language=language_skill.language, level_skill=language_skill.level_skill).exists():
+            return form.save()
     return None
 
 def check_skill_owner(skill, user):

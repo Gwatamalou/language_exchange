@@ -8,19 +8,20 @@
 
         <form id="avatar-form" method="POST" enctype="multipart/form-data" action="{% url 'update-avatar' %}">
             {% csrf_token %}
+            <div id="avatar-container">
             <img id="avatar" src="{{ avatar_url }}" alt="avatar">
+            <span id="hover-text">Изменить изображение</span>
+            </div>
 
             <input type="file" id="avatar-input" name="avatar" style="display: none;" accept="image/*">
         </form>
-
-{#        <img id="avatar" src="{% static 'users/images/logo.png' %}" alt="ava">#}
 
         <dl>
             <dt>ID</dt>
             <dd>{{ user.id }}</dd>
             <dt>Имя</dt>
             <dd>{{ user.username }}</dd>
-            <dt><a href="{% url 'password-change' %}">Сменить пароль</a></dt>
+            <dt><a href="{% url 'password-change' %}"><button>Сменить пароль</button></a></dt>
             <form method="POST" action="{% url 'logout' %}">
                 {% csrf_token %}
                 <button type="submit">Выйти</button>

@@ -17,7 +17,7 @@ from .services import (register_user, get_user_data, add_language_skill, get_cur
 # Qwertyui1.
 def index(request):
     """Начальная страницы"""
-    return render(request, 'base.html')
+    return render(request, 'base.html', {'auth': request.user.is_authenticated})
 
 
 def register(request):
@@ -66,10 +66,8 @@ def create_language_handler(request):
     """Добавление информации о знании языка"""
     if request.method == 'POST':
         form = LanguageSkillForm(request.POST)
-        language_skill = add_language_skill(request.user, form)
-
-        if language_skill:
-            return redirect('user-profile', user_id=request.user.id)
+        add_language_skill(request.user, form)
+    return redirect('user-profile', user_id=request.user.id)
 
 
 @login_required
@@ -82,7 +80,7 @@ def update_language_skill_handler(request, skill_id):
 
     if request.method == 'POST':
         form = LanguageSkillForm(request.POST, instance=skill)
-        if update_language_skill(form):
+        if update_language_skill(request.user.id, form):
             return redirect('user-profile', user_id=request.user.id)
     else:
         form = LanguageSkillForm(instance=skill)

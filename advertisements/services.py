@@ -15,10 +15,11 @@ def get_all_objects(model):
 def add_new_advertisement(user, form):
     if form.is_valid():
         advertisement = form.save(commit=False)
-        advertisement.user = user
-        advertisement.save()
-        return redirect('ads_list')
-    return None
+        if not Advertisement.objects.filter(user=user, language_to_learn=advertisement.language_to_learn, language_level_to_learn=advertisement.language_level_to_learn):
+            advertisement.user = user
+            advertisement.save()
+    return redirect('ads_list')
+
 
 def add_new_notification(user, ads):
     if not Notification.objects.filter(responder=user, user=ads.user, advertisement=ads).exists():
