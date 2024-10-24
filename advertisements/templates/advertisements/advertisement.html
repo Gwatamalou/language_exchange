@@ -3,14 +3,18 @@
 
 {% block content %}
 
-    <h1 id="title">Nikname</h1>
+    <h1 id="title">{{ advertisement.user.username }}</h1>
 
     <div class="choose_lesson ">
-        <img id="avatar" src="\static\users\images\logo.png" alt="ava">
+        <img id="avatar" src={{ avatar_url }} alt="ava">
         <div class="lesson_info">
-         <p id="description">description</p>
         <div class="lesson_ads">
-            <p>{{ advertisement.user.username }} {{ advertisement.language_to_learn }} {{ advertisement.language_level_to_learn }}
+            <h3>Знает</h3>
+            {% for skill in user_language_skills %}
+                <p>{{ skill.language }} -  {{ skill.level_skill }}</p>
+            {% endfor %}
+            <h3>Изучает</h3>
+            <p>{{ advertisement.language_to_learn }} {{ advertisement.language_level_to_learn }}
             <form method="POST" action="{% url 'choose' advertisement.id %}">
               {% csrf_token %}
               <button type="submit">Выбрать</button>

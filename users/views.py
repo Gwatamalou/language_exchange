@@ -44,8 +44,7 @@ def show_user_profile_view(request, user_id):
         return redirect(LOGIN_URL)
 
     user_profile = UserProfile.objects.get(user_id=request.user.id)
-    avatar_url = user_profile.avatar.url if user_profile.avatar else None
-    print(avatar_url)
+    avatar_url = user_profile.avatar.url
 
     form = LanguageSkillForm()
     data = {
