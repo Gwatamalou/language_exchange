@@ -36,7 +36,9 @@ class ChatConsumer(AsyncWebsocketConsumer):
             {
                 'type': 'chat_message',
                 'username': username,
-                'message': message
+                'message': message,
+                'sdp': text_data_json.get('sdp'),
+                'ice': text_data_json.get('ice')
             }
         )
 
@@ -44,8 +46,12 @@ class ChatConsumer(AsyncWebsocketConsumer):
     async def chat_message(self, event):
         message = event['message']
         username = event['username']
+        sdp = event.get('sdp')
+        ice = event.get('ice')
 
         await self.send(text_data=json.dumps({
             'username': username,
-            'message': message
+            'message': message,
+            'sdp': sdp,
+            'ice': ice
         }))
