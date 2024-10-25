@@ -3,13 +3,14 @@
 {% block content %}
 
     <h1>Room: {{ room_name }}</h1>
+    <div id="video_chat">
+    <video id="localVideo" autoplay muted></video>
+    <video id="remoteVideo" autoplay></video>
+    </div>
     <input id="chat-message-input" type="text" size="100">
     <div id="chat-log"></div>
     <button id="chat-message-submit">Отправить</button>
     <button id="end-chat">Закончить</button>
-
-    <video id="localVideo" autoplay muted></video>
-    <video id="remoteVideo" autoplay></video>
 
     <script>
         const roomName = "{{ room_name }}";

@@ -10,8 +10,10 @@ from language_exchange.settings import LOGIN_REDIRECT_URL, LOGIN_URL
 from .forms import LanguageSkillForm, AvatarForm
 from .models import UserProfile
 
-from .services import (register_user, get_user_data, add_language_skill, get_current_language, update_language_skill,
-                       check_skill_owner, get_notification)
+# from .services import (register_user, get_user_data, add_language_skill, get_current_language, update_language_skill,
+#                        check_skill_owner, get_notification)
+
+from .services import *
 
 
 # Qwertyui1.
@@ -27,7 +29,7 @@ def register(request):
         form = UserCreationForm(request.POST)
         user = register_user(form)
         if user:
-            UserProfile.objects.create(user=user)
+            create_new_user(user)
             return redirect(LOGIN_URL)
     else:
         form = UserCreationForm()
@@ -35,16 +37,16 @@ def register(request):
     return render(request, 'users/register.html', {'form': form})
 
 
+
+
 @login_required
 def show_user_profile_view(request, user_id):
     """Отображение профиля пользователя"""
-    user, user_language = get_user_data(user_id)
+    user, user_language, avatar_url = get_user_data(user_id=user_id)
 
     if user != request.user:
         return redirect(LOGIN_URL)
 
-    user_profile = UserProfile.objects.get(user_id=request.user.id)
-    avatar_url = user_profile.avatar.url
 
     form = LanguageSkillForm()
     data = {
@@ -106,10 +108,7 @@ def delete_language_skill_handler(request, skill_id):
 @login_required
 def update_avatar(request):
     if request.method == 'POST':
-        try:
-            profile = request.user.userprofile
-        except UserProfile.DoesNotExist:
-            profile = UserProfile.objects.create(user=request.user)
+        profile = request.user.userprofile
 
         if request.FILES.get('avatar'):
             profile.avatar = request.FILES['avatar']

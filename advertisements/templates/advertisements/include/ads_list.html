@@ -3,11 +3,11 @@
         <a href="{% url 'ads' ads_data.ads.id %}">
             <div id="core">
                 {% if request.resolver_match.kwargs.slug_id != ads_data.ads.id %}
-                    <p>{{ ads_data.ads.user.username }} |
+                    <p>{{ ads_data.ads.user.username }} | ЗНАЕТ
                     {% for skill in ads_data.language_skills %}
                         {{ skill.language }} ({{ skill.level_skill }}){% if not forloop.last %}, {% endif %}
                     {% endfor %} |
-                    {{ ads_data.ads.language_to_learn }} | {{ ads_data.ads.language_level_to_learn }}</p>
+                    ИЗУЧАЕТ {{ ads_data.ads.language_to_learn }} | {{ ads_data.ads.language_level_to_learn }}</p>
 
                     {% if user_id == ads_data.ads.user.id %}
                         <div id="button-in-form">

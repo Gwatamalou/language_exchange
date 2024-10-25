@@ -32,10 +32,10 @@ def show_advertisements_list(request):
 
 @login_required
 def show_selected_advertisement_view(request, slug_id):
-    """страница отображения выборного объявления и списка других объявлений пользователя"""
+    """страница отображения выборного объявления"""
     advertisement = get_current_advertisement(slug_id)
     avatar_url = advertisement.user.userprofile.avatar.url
-    user_language_skills = LanguageSkill.objects.filter(user=request.user)
+    user_language_skills = LanguageSkill.objects.filter(user=advertisement.user)
 
     if advertisement.user == request.user:
         return redirect('ads_list')
