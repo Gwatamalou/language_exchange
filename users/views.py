@@ -39,8 +39,6 @@ def register(request):
     return render(request, 'users/register.html', {'form': form})
 
 
-
-
 @login_required
 def show_user_profile_view(request, user_id):
     """Отображение профиля пользователя"""
@@ -48,7 +46,6 @@ def show_user_profile_view(request, user_id):
 
     if user != request.user:
         return redirect(LOGIN_URL)
-
 
     form = LanguageSkillForm()
     data = {
@@ -108,6 +105,7 @@ def delete_language_skill_handler(request, skill_id):
     else:
         return redirect(LOGIN_URL)
 
+
 @login_required
 def update_avatar_handler(request):
     if request.method == 'POST':
@@ -119,6 +117,7 @@ def update_avatar_handler(request):
 
     return redirect('user-profile', user_id=request.user.id)
 
+
 @login_required
 def show_notification_view(request):
     """Отображение страницы уведомлений"""
@@ -129,7 +128,6 @@ def show_notification_view(request):
         'notificat': notification,
     }
     return render(request, 'users/notification.html', context=data)
-
 
 
 @login_required
@@ -146,8 +144,8 @@ def notification_response_handler(request, notification_id):
             notification_delete(notification)
             return redirect('notification-list')
 
+
 class CustomLoginView(auth_views.LoginView):
     def get_success_url(self):
         """Пусть редиректа после авторизации"""
         return f'/{LOGIN_REDIRECT_URL}/{self.request.user.id}/'
-
