@@ -18,7 +18,7 @@ urlpatterns = [
     path('delete_skill/<int:skill_id>/', views.delete_language_skill_handler, name='delete-skill'),
     path('notification/', views.show_notification_view, name='notification-list'),
     path('notification/<int:notification_id>/', views.notification_response_handler, name='notification'),
-    path('update-avatar/', views.update_avatar, name='update-avatar'),
+    path('update-avatar/', views.update_avatar_handler, name='update-avatar'),
 
 ]
 

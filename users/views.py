@@ -14,6 +14,8 @@ from .models import UserProfile
 #                        check_skill_owner, get_notification)
 
 from .services import *
+from .services.services import delete_skill, update_avatar, notification_accept, notification_delete, \
+    get_current_notification
 
 
 # Qwertyui1.
@@ -80,17 +82,18 @@ def update_language_skill_handler(request, skill_id):
         return redirect(LOGIN_URL)
 
     if request.method == 'POST':
-        form = LanguageSkillForm(request.POST, instance=skill)
-        if update_language_skill(request.user.id, form):
-            return redirect('user-profile', user_id=request.user.id)
+        form = LanguageSkillForm(request.POST, instance=skill, language_readonly=True)
+        update_language_skill(request.user.id, form)
+        return redirect('user-profile', user_id=request.user.id)
     else:
-        form = LanguageSkillForm(instance=skill)
+        form = LanguageSkillForm(instance=skill, language_readonly=True)
 
     data = {
         'form': form,
         'skill': skill,
         'auth': request.user.is_authenticated,
     }
+
     return render(request, 'users/update_language_skill.html', context=data)
 
 
@@ -100,19 +103,19 @@ def delete_language_skill_handler(request, skill_id):
     skill = get_current_language(skill_id)
 
     if check_skill_owner(skill, request.user):
-        skill.delete()
+        delete_skill(skill)
         return redirect('user-profile', user_id=request.user.id)
     else:
         return redirect(LOGIN_URL)
 
 @login_required
-def update_avatar(request):
+def update_avatar_handler(request):
     if request.method == 'POST':
         profile = request.user.userprofile
 
         if request.FILES.get('avatar'):
-            profile.avatar = request.FILES['avatar']
-            profile.save()
+            avatar = request.FILES['avatar']
+            update_avatar(profile, avatar)
 
     return redirect('user-profile', user_id=request.user.id)
 
@@ -132,16 +135,15 @@ def show_notification_view(request):
 @login_required
 def notification_response_handler(request, notification_id):
     """Обработчик отклика на уведомление принять/отклонить"""
-    notification = Notification.objects.get(id=notification_id, user=request.user)
+    notification = get_current_notification(notification_id, request.user)
 
     if request.method == 'POST':
         if 'accept' in request.POST:
-            room = notification.room
-            notification.delete()
+            room = notification_accept(notification)
             return redirect('lesson', room)
 
         elif 'decline' in request.POST:
-            notification.delete()
+            notification_delete(notification)
             return redirect('notification-list')
 
 class CustomLoginView(auth_views.LoginView):

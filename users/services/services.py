@@ -14,7 +14,7 @@ __all__ = ['get_user_data',
            'create_new_user',
            'add_language_skill',
            'update_language_skill'
-            ]
+           ]
 
 
 def _extract_user_data(user_id):
@@ -37,11 +37,9 @@ def create_new_user(user):
 def add_language_skill(user, form):
     if form.is_valid():
         language_skill = form.save(commit=False)
-        if not LanguageSkill.objects.filter(user=user, language=language_skill.language,
-                                            level_skill=language_skill.level_skill).exists():
+        if not LanguageSkill.objects.filter(user=user, language=language_skill.language).exists():
             language_skill.user = user
             language_skill.save()
-            return language_skill
 
 
 def update_language_skill(user, form):
@@ -50,8 +48,28 @@ def update_language_skill(user, form):
         language_skill = form.save(commit=False)
         if not LanguageSkill.objects.filter(user=user, language=language_skill.language,
                                             level_skill=language_skill.level_skill).exists():
-            return form.save()
-    return None
+               language_skill.save()
+
+
+def get_current_language(skill_id):
+    """возвращает данные о выбранном языке и уровне владения"""
+    return get_object_or_404(LanguageSkill, id=skill_id)
+
+
+def check_skill_owner(skill, user):
+    """Проверка, является ли пользователь владельцем навыка"""
+    return skill.user == user
+
+
+
+def delete_skill(skill):
+    skill.delete()
+
+
+def update_avatar(profile, avatar):
+    profile.avatar = avatar
+    profile.save()
+
 
 
 def get_user_data(user_id):
@@ -64,6 +82,24 @@ def register_user(form):
     return None
 
 
+def get_notification(user_id):
+    return Notification.objects.filter(user_id=user_id)
+
+
+def get_current_notification(notification_id, user):
+    return Notification.objects.get(id=notification_id, user=user)
+
+
+def notification_accept(notification):
+    room = notification.room
+    notification.delete()
+    return room
+
+
+def notification_delete(notification):
+    notification.delete(notification)
+
+
 def get_object_or_error(model, **kwargs):
     """Получение данных или страницы 404"""
     return get_object_or_404(model, **kwargs)
@@ -73,19 +109,3 @@ def get_object_if_any(model, **kwargs):
     """Получение данных если есть"""
     return model.objects.filter(**kwargs)
 
-
-
-
-def get_current_language(skill_id):
-    """возвращает данные о выбранном языке и уровне владения"""
-    return get_object_or_404(LanguageSkill, id=skill_id)
-
-
-
-def check_skill_owner(skill, user):
-    """Проверка, является ли пользователь владельцем навыка"""
-    return skill.user == user
-
-
-def get_notification(user_id):
-    return Notification.objects.filter(user_id=user_id)

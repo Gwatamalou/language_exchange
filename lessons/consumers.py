@@ -2,6 +2,7 @@ import json
 from redis.asyncio import Redis
 from channels.generic.websocket import AsyncWebsocketConsumer
 
+
 class ChatConsumer(AsyncWebsocketConsumer):
     # Присоединение к группе
     async def connect(self):
@@ -22,7 +23,6 @@ class ChatConsumer(AsyncWebsocketConsumer):
             self.room_group_name,
             self.channel_name
         )
-
 
         await self.redis.close()
 
