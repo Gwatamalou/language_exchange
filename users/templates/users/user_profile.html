@@ -6,9 +6,9 @@
     <div class="information">
 
 
-        <form id="avatar-form" method="POST" enctype="multipart/form-data" action="{% url 'update-avatar' %}">
+        <form id="avatar-form" method="POST" enctype="multipart/form-data" action="{% url 'user-profile' user_id=request.user.id %}">
             {% csrf_token %}
-            <div id="avatar-container">
+            <div id="avatar-container" >
             <img id="avatar" src="{{ avatar_url }}" alt="avatar">
             <span id="hover-text">Изменить изображение</span>
             </div>
@@ -30,11 +30,11 @@
     </div>
 
     <div class="add_language_skill">
-        <form method="POST" action="{% url 'create-skill' %}">
+        <form method="POST"  action="{% url 'user-profile' user_id=request.user.id %}">
             {% csrf_token %}
             {{ form.language }}
             {{ form.level_skill }}
-            <button>Добавить</button>
+            <button name="add_skill">Добавить</button>
         </form>
     </div>
 

@@ -47,7 +47,6 @@ LANGUAGE_LIST = (
 )
 
 MENU = [
-    # {'title': 'Диалог', 'url_name': 'lesson'},
     {'title': 'Найти собеседника', 'url_name': 'ads_list'},
     {'title': 'Войти', 'url_name': 'login'},
     {'title': 'Уведомления', 'url_name': 'notification-list'},

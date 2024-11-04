@@ -2,12 +2,12 @@
 
 {% block content %}
 
-    {% for n in notificat %}
+    {% for n in notification %}
         {{ n.responder }}<br>
-        <form method="post" action="{% url 'notification' n.id %}">
+        <form method="POST" action="{% url 'notification-list' %}">
         {% csrf_token %}
-        <button type="submit" name="accept">Принять</button>
-        <button type="submit" name="decline">Отклонить</button>
+        <button type="submit" name="accept" value="{{ n.id }}">Принять</button>
+        <button type="submit" name="decline" value="{{ n.id }}">Отклонить</button>
     </form>
 
     {% endfor %}

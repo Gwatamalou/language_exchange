@@ -6,26 +6,31 @@ from users.models import LanguageSkill, UserProfile
 
 __all__ = ['get_user_data',
            'register_user',
-           'get_current_language',
-           'check_skill_owner',
+           'get_current_language_skill',
+           'is_skill_owner',
            'get_notification',
            'get_object_or_error',
            'get_object_if_any',
            'create_new_user',
            'add_language_skill',
-           'update_language_skill'
+           'update_language_skill',
+           'delete_skill',
+           'update_avatar',
+           'notification_accept',
+           'notification_delete',
+           'get_current_notification'
            ]
 
 
-def _extract_user_data(user_id):
+def _get_user_data(user_id):
     return get_object_or_404(User, id=user_id)
 
 
-def _extract_user_languages_skill(user_id):
+def _get_user_language_skills(user_id):
     return LanguageSkill.objects.filter(user_id=user_id)
 
 
-def _extract_avatar_url(user_id):
+def _get_user_avatar_url(user_id):
     user_profile = UserProfile.objects.get(user_id=user_id)
     return user_profile.avatar.url
 
@@ -51,12 +56,12 @@ def update_language_skill(user, form):
                language_skill.save()
 
 
-def get_current_language(skill_id):
+def get_current_language_skill(skill_id):
     """возвращает данные о выбранном языке и уровне владения"""
     return get_object_or_404(LanguageSkill, id=skill_id)
 
 
-def check_skill_owner(skill, user):
+def is_skill_owner(skill, user):
     """Проверка, является ли пользователь владельцем навыка"""
     return skill.user == user
 
@@ -73,7 +78,7 @@ def update_avatar(profile, avatar):
 
 
 def get_user_data(user_id):
-    return _extract_user_data(user_id), _extract_user_languages_skill(user_id), _extract_avatar_url(user_id)
+    return _get_user_data(user_id), _get_user_language_skills(user_id), _get_user_avatar_url(user_id)
 
 
 def register_user(form):
@@ -97,7 +102,7 @@ def notification_accept(notification):
 
 
 def notification_delete(notification):
-    notification.delete(notification)
+    notification.delete()
 
 
 def get_object_or_error(model, **kwargs):
