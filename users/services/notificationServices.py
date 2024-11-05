@@ -16,7 +16,7 @@ def get_notification(user_id):
 
 def get_current_notification(notification_id, user):
     try:
-        Notification.objects.get(id=notification_id, user=user)
+        return Notification.objects.get(id=notification_id, user=user)
     except Notification.DoesNotExist:
         return None
 

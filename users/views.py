@@ -1,3 +1,5 @@
+from logging import exception
+
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
@@ -42,9 +44,8 @@ class RegisterView(FormView):
                 return redirect(LOGIN_URL)
             except Exception as e:
                 logger.warning(e)
-        else:
-            messages.error(self.request, "Ошибка при регистрации. Пожалуйста, попробуйте снова.")
-            return self.form_invalid(form)
+
+        return self.form_invalid(form)
 
 
 class UserProfileView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
@@ -61,7 +62,6 @@ class UserProfileView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
         return self.request.user.id == int(self.kwargs['user_id'])
 
     def handle_no_permission(self):
-        messages.error(self.request, "У вас нет доступа к этому профилю.")
         return redirect(LOGIN_URL)
 
     def get_context_data(self, **kwargs):
@@ -85,10 +85,13 @@ class UserProfileView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
         if 'add_skill' in self.request.POST:
             form = LanguageSkillForm(request.POST)
             if form.is_valid():
-                add_language_skill(self.request.user, form)
-                messages.success(request, "Навык успешно добавлен.")
-            else:
-                messages.error(request, "Не удалось добавить навык. Проверьте введенные данные.")
+                try:
+                    add_language_skill(self.request.user, form)
+                    messages.success(request, "Навык успешно добавлен.")
+                except Exception as e:
+                    logger.error(e)
+
+            messages.error(request, "Не удалось добавить навык. Проверьте введенные данные.")
 
             return redirect('user-profile', user_id=self.request.user.id)
 
@@ -98,10 +101,13 @@ class UserProfileView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
             skill = get_current_language_skill(skill_id)
 
             if is_skill_owner(skill, request.user):
-                delete_skill(skill)
-                messages.success(request, "Навык успешно удалён.")
-            else:
-                messages.error(request, "Вы не можете удалить этот навык.")
+                try:
+                    delete_skill(skill)
+                    messages.success(request, "Навык успешно удалён.")
+                except Exception as e:
+                    logger.error(e)
+
+            messages.error(request, "Вы не можете удалить этот навык.")
 
             return redirect('user-profile', user_id=self.request.user.id)
 
@@ -109,8 +115,11 @@ class UserProfileView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
         elif "avatar" in self.request.FILES:
             profile = self.request.user.userprofile
             if request.FILES.get('avatar'):
-                avatar = request.FILES['avatar']
-                update_avatar(profile, avatar)
+                try:
+                    avatar = request.FILES['avatar']
+                    update_avatar(profile, avatar)
+                except Exception as e:
+                    logger.error(e)
 
             return redirect('user-profile', user_id=request.user.id)
 
@@ -131,7 +140,6 @@ class UpdateLanguageSkillView(LoginRequiredMixin, UpdateView):
             'language_readonly': True,
         })
         return kwargs
-        # return LanguageSkillForm(self.request.POST, instance=self.get_object(), language_readonly=True)
 
     def form_valid(self, form):
         form.instance.user = self.request.user
@@ -167,17 +175,24 @@ class NotificationView(LoginRequiredMixin, UserPassesTestMixin, ListView):
         notification = get_current_notification(notification_id, request.user)
 
         if 'accept' in request.POST:
-            room = notification_accept(notification)
-            messages.success(request, "Запрос успешно принят.")
-            return redirect('lesson', room)
+            try:
+                room = notification_accept(notification)
+                messages.success(request, "Запрос успешно принят.")
+                return redirect('lesson', room)
+            except Exception as e:
+                logger.error(e)
+                return redirect('notification-list')
 
         elif 'decline' in request.POST:
-            notification_delete(notification)
-            messages.info(request, "Запрос отклонен.")
+            try:
+                notification_delete(notification)
+                messages.info(request, "Запрос отклонен.")
+            except Exception as e:
+                logger.error(e)
             return redirect('notification-list')
 
 
 class CustomLoginView(auth_views.LoginView):
     def get_success_url(self):
         """Пусть редиректа после авторизации"""
-        return reverse(LOGIN_REDIRECT_URL, args=[self.request.user.id])
+        return f'/{LOGIN_REDIRECT_URL}/{self.request.user.id}/'
