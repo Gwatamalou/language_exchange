@@ -1,11 +1,17 @@
 from django.contrib.auth.forms import UserCreationForm
-
-from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
-from django.views.generic.edit import FormView, UpdateView
-from django.views.generic.detail import DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth import views as auth_views
+
+from django.shortcuts import render, redirect, get_object_or_404
+
+from django.urls import reverse
+
+from django.views.generic import ListView
+from django.views.generic.edit import FormView, UpdateView
+from django.views.generic.detail import DetailView
+
+import logging
 
 from advertisements.models import Notification
 from language_exchange.settings import LOGIN_REDIRECT_URL, LOGIN_URL
@@ -14,6 +20,8 @@ from .forms import LanguageSkillForm
 from .models import UserProfile
 from .services import *
 
+
+logger = logging.getLogger(__name__)
 
 # Qwertyui1.
 def index(request):
@@ -28,14 +36,15 @@ class RegisterView(FormView):
     def form_valid(self, form):
         user = register_user(form)
         if user:
-            create_new_user(user)
-            messages.success(self.request, "Регистрация прошла успешно. Войдите в свой аккаунт.")
-            return redirect(LOGIN_URL)
+            try:
+                create_new_user(user)
+                logger.info(f'create {user}')
+                return redirect(LOGIN_URL)
+            except Exception as e:
+                logger.warning(e)
         else:
             messages.error(self.request, "Ошибка при регистрации. Пожалуйста, попробуйте снова.")
-            form = UserCreationForm()
-            return render(self.request, self.template_name, {'form': form})
-
+            return self.form_invalid(form)
 
 
 class UserProfileView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
@@ -49,8 +58,7 @@ class UserProfileView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
 
     def test_func(self):
         """Проверка, что пользователь просматривает свой профиль"""
-        user_id = int(self.kwargs['user_id'])
-        return self.request.user.id == user_id
+        return self.request.user.id == int(self.kwargs['user_id'])
 
     def handle_no_permission(self):
         messages.error(self.request, "У вас нет доступа к этому профилю.")
@@ -97,12 +105,12 @@ class UserProfileView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
 
             return redirect('user-profile', user_id=self.request.user.id)
 
-        # elif "avatar" in self.request.POST:
-        else:
+
+        elif "avatar" in self.request.FILES:
             profile = self.request.user.userprofile
             if request.FILES.get('avatar'):
-                    avatar = request.FILES['avatar']
-                    update_avatar(profile, avatar)
+                avatar = request.FILES['avatar']
+                update_avatar(profile, avatar)
 
             return redirect('user-profile', user_id=request.user.id)
 
@@ -116,36 +124,39 @@ class UpdateLanguageSkillView(LoginRequiredMixin, UpdateView):
         skill = get_current_language_skill(skill_id)
         return skill
 
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs.update({
+            'instance': self.get_object(),
+            'language_readonly': True,
+        })
+        return kwargs
+        # return LanguageSkillForm(self.request.POST, instance=self.get_object(), language_readonly=True)
+
     def form_valid(self, form):
         form.instance.user = self.request.user
-#       form = LanguageSkillForm(request.POST, instance=skill, language_readonly=True)
         update_language_skill(self.request.user.id, form)
         return redirect('user-profile', user_id=self.request.user.id)
 
 
-
-class NotificationView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
+class NotificationView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     template_name = 'users/notification.html'
     model = Notification
+    context_object_name = 'notification'
 
     def test_func(self):
         return True
 
     def handle_no_permission(self):
-        messages.error(self.request, "У вас нет доступа к этому профилю.")
-        print(12)
-        return redirect(LOGIN_URL)
+        pass
 
-    def get_object(self, queryset=None):
-        notification = get_notification(self.request.user.id)
-        return notification
+    def get_queryset(self):
+        return get_notification(self.request.user.id)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        notification = self.get_object()
         context.update({
             'auth': self.request.user.is_authenticated,
-            'notification': notification,
         })
 
         return context
@@ -155,16 +166,18 @@ class NotificationView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
         notification_id = request.POST.get("accept") or request.POST.get("decline")
         notification = get_current_notification(notification_id, request.user)
 
-        if request.method == 'POST':
-            if 'accept' in request.POST:
-                room = notification_accept(notification)
-                return redirect('lesson', room)
+        if 'accept' in request.POST:
+            room = notification_accept(notification)
+            messages.success(request, "Запрос успешно принят.")
+            return redirect('lesson', room)
 
-            elif 'decline' in request.POST:
-                notification_delete(notification)
-                return redirect('notification-list')
+        elif 'decline' in request.POST:
+            notification_delete(notification)
+            messages.info(request, "Запрос отклонен.")
+            return redirect('notification-list')
+
 
 class CustomLoginView(auth_views.LoginView):
     def get_success_url(self):
         """Пусть редиректа после авторизации"""
-        return f'/{LOGIN_REDIRECT_URL}/{self.request.user.id}/'
+        return reverse(LOGIN_REDIRECT_URL, args=[self.request.user.id])
