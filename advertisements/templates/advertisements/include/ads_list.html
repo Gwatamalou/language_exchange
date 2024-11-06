@@ -1,24 +1,24 @@
 <div class="content-list">
     {% for ads_data in ads_with_languages %}
-        <a href="{% url 'ads' ads_data.ads.id %}">
-            <div id="core">
-                {% if request.resolver_match.kwargs.slug_id != ads_data.ads.id %}
-                    <p>{{ ads_data.ads.user.username }} | ЗНАЕТ
-                    {% for skill in ads_data.language_skills %}
-                        {{ skill.language }} ({{ skill.level_skill }}){% if not forloop.last %}, {% endif %}
-                    {% endfor %} |
-                    ИЗУЧАЕТ {{ ads_data.ads.language_to_learn }} | {{ ads_data.ads.language_level_to_learn }}</p>
+        {% if user_id != ads_data.ads.user.id %}
+            <a href="{% url 'ads' ads_data.ads.id %}">
+        {% endif %}
+    <div id="core">
+        <p>{{ ads_data.ads.user.username }} | ЗНАЕТ
+            {% for skill in ads_data.language_skills %}
+                {{ skill.language }} ({{ skill.level_skill }}){% if not forloop.last %}, {% endif %}
+            {% endfor %} |
+            ИЗУЧАЕТ {{ ads_data.ads.language_to_learn }} | {{ ads_data.ads.language_level_to_learn }}</p>
 
-                    {% if user_id == ads_data.ads.user.id %}
-                        <div id="button-in-form">
-                            <form method="POST" action="{% url 'delete-ads' ads_data.ads.id %}">
-                                {% csrf_token %}
-                                <button type="submit">Удалить</button>
-                            </form>
-                        </div>
-                    {% endif %}
-                {% endif %}
+        {% if user_id == ads_data.ads.user.id %}
+            <div id="button-in-form">
+                <form method="POST" action="{% url 'ads' ads_data.ads.user.id %}">
+                    {% csrf_token %}
+                    <button type="submit" name="delete_ads" value="{{ ads_data.ads.id }}">Удалить</button>
+                </form>
             </div>
-        </a>
+        {% endif %}
+    </div>
+    </a>
     {% endfor %}
 </div>

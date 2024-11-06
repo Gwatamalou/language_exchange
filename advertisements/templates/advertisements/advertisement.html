@@ -15,9 +15,9 @@
             {% endfor %}
             <h3>Изучает</h3>
             <p>{{ advertisement.language_to_learn }} {{ advertisement.language_level_to_learn }}
-            <form method="POST" action="{% url 'choose' advertisement.id %}">
+            <form method="POST">
               {% csrf_token %}
-              <button type="submit">Выбрать</button>
+              <button type="submit" name="choose" value="{{ advertisement.id }}">Выбрать</button>
             </form>
         </div>
         </div>

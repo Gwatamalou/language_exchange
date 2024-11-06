@@ -4,5 +4,5 @@ from lessons import views
 
 
 urlpatterns = [
-    path('<str:room>/', views.show_conference_view, name='lesson'),
+    path('<str:room>/', views.ConferenceView.as_view(), name='lesson'),
     ]

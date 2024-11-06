@@ -7,7 +7,7 @@
             <a href="{% url 'update-skill' lang.id %}">
                 <button type="button">Обновить</button>
             </a>
-            <form method="POST"  action="{% url 'user-profile' user_id=request.user.id %}">
+            <form method="POST">
                 {% csrf_token %}
                 <input type="hidden" name="delete_skill_id" value="{{ lang.id }}">
                 <button type="submit">Удалить</button>

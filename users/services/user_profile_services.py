@@ -13,7 +13,6 @@ __all__ = ['get_user_data',
            'update_avatar',
            ]
 
-from users.views import logger
 
 
 def _get_user_data(user_id):

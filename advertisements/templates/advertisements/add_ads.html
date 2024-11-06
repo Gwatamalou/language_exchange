@@ -3,7 +3,7 @@
     <div class="auth-container">
     <div class="login">
     <h1>ADD</h1>
-    <form method="POST" action="{% url 'add-new-ads' %}">
+    <form method="POST">
         {{ form }}
         {% csrf_token %}
         <button type="submit">Создать</button>

@@ -148,16 +148,11 @@ class UpdateLanguageSkillView(LoginRequiredMixin, UpdateView):
         return redirect('user-profile', user_id=self.request.user.id)
 
 
-class NotificationView(LoginRequiredMixin, UserPassesTestMixin, ListView):
+class NotificationView(LoginRequiredMixin, ListView):
     template_name = 'users/notification.html'
     model = Notification
     context_object_name = 'notification'
 
-    def test_func(self):
-        return True
-
-    def handle_no_permission(self):
-        pass
 
     def get_queryset(self):
         return get_notification(self.request.user.id)
