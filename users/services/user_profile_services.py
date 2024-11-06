@@ -13,6 +13,7 @@ __all__ = ['get_user_data',
            'update_avatar',
            ]
 
+from users.views import logger
 
 
 def _get_user_data(user_id):
@@ -35,7 +36,7 @@ def get_user_data(user_id):
 @transaction.atomic
 def update_avatar(profile, avatar):
     if avatar.size > 8 * 1024 * 1024:
-        raise ValidationError('Размер файла слишком большой')
+        raise ValidationError('file size is too big')
     # добавить логику обработки формата изображения
     profile.avatar = avatar
     profile.save()

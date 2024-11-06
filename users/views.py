@@ -1,13 +1,10 @@
-from logging import exception
 
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth import views as auth_views
 
 from django.shortcuts import render, redirect, get_object_or_404
 
-from django.urls import reverse
 
 from django.views.generic import ListView
 from django.views.generic.edit import FormView, UpdateView
@@ -40,10 +37,12 @@ class RegisterView(FormView):
         if user:
             try:
                 create_new_user(user)
-                logger.info(f'create {user}')
+                logger.info(f'created user {user} successfully')
                 return redirect(LOGIN_URL)
             except Exception as e:
-                logger.warning(e)
+                logger.warning(f'user creation error {user} | {e}')
+        else:
+            logger.warning(f'registration form is not available')
 
         return self.form_invalid(form)
 
@@ -87,11 +86,11 @@ class UserProfileView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
             if form.is_valid():
                 try:
                     add_language_skill(self.request.user, form)
-                    messages.success(request, "Навык успешно добавлен.")
+                    logger.info(f'added is user skill {self.request.user}')
                 except Exception as e:
-                    logger.error(e)
-
-            messages.error(request, "Не удалось добавить навык. Проверьте введенные данные.")
+                    logger.error(f'error adding user skill {self.request.user} | {e}')
+            else:
+                logger.warning(f'skill addition form is invalid for the user {self.request.user}')
 
             return redirect('user-profile', user_id=self.request.user.id)
 
@@ -103,11 +102,12 @@ class UserProfileView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
             if is_skill_owner(skill, request.user):
                 try:
                     delete_skill(skill)
-                    messages.success(request, "Навык успешно удалён.")
+                    logger.info(f' skill has been deleted for the user {self.request.user}')
                 except Exception as e:
-                    logger.error(e)
+                    logger.error(f'Error when deleting a skill for a user {self.request.user} | {e}')
+            else:
+                logger.warning(f'user {self.request.user} attempt to delete someone`s skill')
 
-            messages.error(request, "Вы не можете удалить этот навык.")
 
             return redirect('user-profile', user_id=self.request.user.id)
 
@@ -118,8 +118,9 @@ class UserProfileView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
                 try:
                     avatar = request.FILES['avatar']
                     update_avatar(profile, avatar)
+                    logger.info(f'add new avatar for {self.request.user}')
                 except Exception as e:
-                    logger.error(e)
+                    logger.error(f'error add new avatar for user {self.request.user} | {e}')
 
             return redirect('user-profile', user_id=request.user.id)
 
@@ -177,18 +178,18 @@ class NotificationView(LoginRequiredMixin, UserPassesTestMixin, ListView):
         if 'accept' in request.POST:
             try:
                 room = notification_accept(notification)
-                messages.success(request, "Запрос успешно принят.")
+                logger.info(f'notification {notification_id} accept {self.request.user}')
                 return redirect('lesson', room)
             except Exception as e:
-                logger.error(e)
+                logger.error(f'failed accept notification {notification_id} user {self.request.user} | {e}')
                 return redirect('notification-list')
 
         elif 'decline' in request.POST:
             try:
                 notification_delete(notification)
-                messages.info(request, "Запрос отклонен.")
+                logger.info(f'notification {notification_id} decline {self.request.user}')
             except Exception as e:
-                logger.error(e)
+                logger.error(f'failed decline notification {notification_id} user {self.request.user} | {e}')
             return redirect('notification-list')
 
 

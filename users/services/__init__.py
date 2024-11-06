@@ -1,3 +1,3 @@
-from .userProfileServices import *
-from .languageSkillServices import *
-from .notificationServices import *
+from .user_profile_services import *
+from .language_skill_services import *
+from .notification_services import *

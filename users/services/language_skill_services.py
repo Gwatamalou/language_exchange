@@ -11,6 +11,8 @@ __all__ = [
     'delete_skill',
 ]
 
+from users.views import logger
+
 
 def get_current_language_skill(skill_id):
     """возвращает данные о выбранном языке и уровне владения"""
@@ -29,6 +31,8 @@ def add_language_skill(user, form):
         if not LanguageSkill.objects.filter(user=user, language=language_skill.language).exists():
             language_skill.user = user
             language_skill.save()
+        else:
+            logger.warning(f'Skill {language_skill.language} already exists for user {user}')
 
 
 @transaction.atomic
@@ -39,6 +43,8 @@ def update_language_skill(user, form):
         if not LanguageSkill.objects.filter(user=user, language=language_skill.language,
                                             level_skill=language_skill.level_skill).exists():
             language_skill.save()
+        else:
+            logger.warning(f' Duplicate skill {language_skill.language} for user {user}')
 
 
 @transaction.atomic
