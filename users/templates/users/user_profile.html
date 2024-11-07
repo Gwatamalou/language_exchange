@@ -6,7 +6,7 @@
     <div class="information">
 
 
-        <form id="avatar-form" method="POST" enctype="multipart/form-data" action="{% url 'user-profile' user_id=request.user.id %}">
+        <form id="avatar-form" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             <div id="avatar-container" >
             <img id="avatar" src="{{ avatar_url }}" alt="avatar">
@@ -30,7 +30,7 @@
     </div>
 
     <div class="add_language_skill">
-        <form method="POST"  action="{% url 'user-profile' user_id=request.user.id %}">
+        <form method="POST">
             {% csrf_token %}
             {{ form.language }}
             {{ form.level_skill }}

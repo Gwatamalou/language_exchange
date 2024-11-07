@@ -15,7 +15,6 @@ urlpatterns = [
     path('profile/<slug:user_id>/', views.UserProfileView.as_view(), name='user-profile'),
     path('update_skill/<int:skill_id>/', views.UpdateLanguageSkillView.as_view(), name='update-skill'),
     path('notification/', views.NotificationView.as_view(), name='notification-list'),
-    # path('notification/<int:notification_id>/', views.notification_response_handler, name='notification'),
 
 ]
 

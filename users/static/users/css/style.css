@@ -220,6 +220,7 @@ ul {
 
 .login form div {
     margin-bottom: 15px;
+    text-align: center;
 }
 
 .login form label {
@@ -243,4 +244,9 @@ ul {
 
 .login a:hover {
     text-decoration: underline;
+}
+
+.error {
+    align-items: center;
+    color: red;
 }

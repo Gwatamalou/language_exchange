@@ -1,9 +1,8 @@
-
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth import views as auth_views
 
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404, reverse
 
 
 from django.views.generic import ListView
@@ -13,7 +12,7 @@ from django.views.generic.detail import DetailView
 import logging
 
 from advertisements.models import Notification
-from language_exchange.settings import LOGIN_REDIRECT_URL, LOGIN_URL
+from language_exchange.settings import LOGIN_URL
 from constants import LANGUAGE_LIST, LEVEL_SKILL
 from .forms import LanguageSkillForm
 from .models import UserProfile
@@ -29,22 +28,17 @@ def index(request):
 
 
 class RegisterView(FormView):
-    template_name = 'users/register.html'
+    template_name = 'registration/register.html'
     form_class = UserCreationForm
 
     def form_valid(self, form):
-        user = register_user(form)
-        if user:
-            try:
-                create_new_user(user)
-                logger.info(f'created user {user} successfully')
-                return redirect(LOGIN_URL)
-            except Exception as e:
-                logger.warning(f'user creation error {user} | {e}')
-        else:
-            logger.warning(f'registration form is not available')
-
-        return self.form_invalid(form)
+        try:
+            register_user(form)
+            logger.info(f'created user {self.request.user} successfully')
+            return redirect(LOGIN_URL)
+        except Exception as e:
+            logger.warning(f'user creation error {self.request.user} | {e}')
+            return self.form_invalid(form)
 
 
 class UserProfileView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
@@ -128,10 +122,12 @@ class UserProfileView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
 class UpdateLanguageSkillView(LoginRequiredMixin, UpdateView):
     form_class = LanguageSkillForm
     template_name = 'users/update_language_skill.html'
+    context_object_name = 'skill'
 
     def get_object(self, queryset=None):
         skill_id = self.kwargs['skill_id']
         skill = get_current_language_skill(skill_id)
+        print(skill.user.id)
         return skill
 
     def get_form_kwargs(self):
@@ -191,4 +187,4 @@ class NotificationView(LoginRequiredMixin, ListView):
 class CustomLoginView(auth_views.LoginView):
     def get_success_url(self):
         """Пусть редиректа после авторизации"""
-        return f'/{LOGIN_REDIRECT_URL}/{self.request.user.id}/'
+        return reverse('user-profile', args=(self.request.user.id, ))

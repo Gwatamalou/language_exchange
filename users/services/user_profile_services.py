@@ -9,7 +9,6 @@ __all__ = ['get_user_data',
            'register_user',
            'get_object_or_error',
            'get_object_if_any',
-           'create_new_user',
            'update_avatar',
            ]
 
@@ -41,16 +40,11 @@ def update_avatar(profile, avatar):
     profile.save()
 
 
-@transaction.atomic
-def create_new_user(user):
-    UserProfile.objects.create(user=user)
 
 
 @transaction.atomic
 def register_user(form):
-    if form.is_valid():
-        return form.save()
-    return None
+     form.save()
 
 
 

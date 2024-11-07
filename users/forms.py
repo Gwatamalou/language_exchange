@@ -16,3 +16,4 @@ class AvatarForm(ModelForm):
     class Meta:
         model = UserProfile
         fields = ['avatar']
+

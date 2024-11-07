@@ -4,7 +4,7 @@
 
     {% for n in notification %}
         {{ n.responder }}<br>
-        <form method="POST" action="{% url 'notification-list' %}">
+        <form method="POST">
         {% csrf_token %}
         <button type="submit" name="accept" value="{{ n.id }}">Принять</button>
         <button type="submit" name="decline" value="{{ n.id }}">Отклонить</button>
