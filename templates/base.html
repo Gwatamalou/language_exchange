@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="{% static 'lessons/css/lesson.css' %}" rel="stylesheet"/>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <link rel="shortcut icon" href="{% static 'users/images/logo.png' %}" type="image/x-icon">
+    <script src="/static/js/push_notification.js" defer></script>
     <title>{{ title }}</title>
 </head>
 
@@ -28,6 +29,7 @@
         {% endfor %}
     </ul>
 </nav>
+<div id="notification-container" style="position: fixed; top: 10px; right: 10px; width: 300px; z-index: 1000;"></div>
 <div class="content">
     {% block content %}
     {% endblock %}

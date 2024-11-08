@@ -28,3 +28,27 @@ INFO 2024-11-07 12:59:32,708 views added is user skill Mari
 INFO 2024-11-07 12:59:33,321 views added is user skill Mari
 INFO 2024-11-07 12:59:33,873 views added is user skill Mari
 INFO 2024-11-07 12:59:34,925 views added is user skill Mari
+ERROR 2024-11-08 13:09:56,718 views failed to create dialogue room user Eva | 'Notification' object has no attribute 'message'
+INFO 2024-11-08 13:11:01,666 views notification 23 decline Mari
+INFO 2024-11-08 13:14:57,423 views notification 24 decline Mari
+ERROR 2024-11-08 13:15:12,812 views failed to create dialogue room user Eva | 'Notification' object has no attribute 'message'
+INFO 2024-11-08 13:22:12,119 views notification 25 decline Mari
+INFO 2024-11-08 13:22:15,791 views notification 22 decline Eva
+INFO 2024-11-08 13:22:16,895 views notification 20 decline Eva
+ERROR 2024-11-08 13:22:29,321 views failed to create dialogue room user Eva | 'Notification' object has no attribute 'message'
+INFO 2024-11-08 13:23:39,741 views notification 26 decline Mari
+ERROR 2024-11-08 13:23:43,479 views failed to create dialogue room user Eva | 'Notification' object has no attribute 'message'
+INFO 2024-11-08 13:23:53,719 views notification 27 decline Mari
+ERROR 2024-11-08 13:23:57,014 views failed to create dialogue room user Eva | 'Notification' object has no attribute 'message'
+INFO 2024-11-08 13:26:30,681 views notification 28 decline Mari
+ERROR 2024-11-08 13:26:33,729 views failed to create dialogue room user Eva | 'Notification' object has no attribute 'message'
+INFO 2024-11-08 13:26:58,155 views notification 29 decline Mari
+ERROR 2024-11-08 13:27:01,069 views failed to create dialogue room user Eva | 'Notification' object has no attribute 'message'
+INFO 2024-11-08 13:29:05,538 views notification 30 decline Mari
+INFO 2024-11-08 13:30:25,562 views notification 31 decline Mari
+INFO 2024-11-08 13:30:52,785 views notification 32 decline Mari
+INFO 2024-11-08 13:31:01,997 views notification 33 decline Mari
+INFO 2024-11-08 13:35:44,355 views notification 34 decline Mari
+INFO 2024-11-08 13:39:37,736 views notification 35 decline Eva
+INFO 2024-11-08 13:39:38,456 views notification 36 decline Eva
+INFO 2024-11-08 13:49:37,101 views notification 37 decline Eva
