@@ -26,9 +26,11 @@ class AdvertisementsList(LoginRequiredMixin, ListView):
             language_skills_prefetch = Prefetch('user__languageskill_set', queryset=language_skills)
             ads = ads.prefetch_related(language_skills_prefetch)
 
+
             ads_with_languages = [
-                {'ads': a, 'language_skills': a.user.languageskill_set.all()}
-                for a in ads
+                {'ads': a,
+                 'language_skills': a.user.languageskill_set.all(),
+                 'avatar_url': a.user.userprofile.avatar.url} for a in ads
             ]
             return ads_with_languages
         except Exception as e:

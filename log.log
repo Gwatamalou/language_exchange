@@ -112,3 +112,12 @@ INFO 2024-11-09 12:36:14,819 views  skill has been deleted for the user Mari
 ERROR 2024-11-09 12:46:41,015 views error getting ads list user Mari | no such column: advertisements_advertisement.data
 ERROR 2024-11-09 12:46:42,088 views error getting ads list user Mari | no such column: advertisements_advertisement.data
 ERROR 2024-11-09 12:46:42,815 views error getting ads list user Mari | no such column: advertisements_advertisement.data
+INFO 2024-11-09 12:57:24,139 views delete ads 23 user Mari
+INFO 2024-11-09 12:57:24,556 views delete ads 24 user Mari
+INFO 2024-11-09 12:57:24,957 views delete ads 25 user Mari
+INFO 2024-11-09 12:57:25,338 views delete ads 26 user Mari
+INFO 2024-11-09 12:57:25,764 views delete ads 27 user Mari
+ERROR 2024-11-09 14:01:18,283 views error getting ads list user Mari | 'QuerySet' object has no attribute 'user'
+ERROR 2024-11-09 14:05:22,691 views error getting ads list user Mari | name 'user' is not defined
+INFO 2024-11-09 14:26:23,606 views added is user skill Mari
+INFO 2024-11-09 14:26:47,936 views added is user skill Mari

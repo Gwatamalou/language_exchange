@@ -17,3 +17,10 @@
 .lesson_ads {
     margin-top: 20px;
 }
+
+#mini_avatar{
+    width: 35px;
+    height: 35px;
+    border-radius: 100%;
+    margin-right: 10px;
+}
