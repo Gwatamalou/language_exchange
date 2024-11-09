@@ -41,7 +41,6 @@ LOGGING = {
     }
 }
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
@@ -52,7 +51,6 @@ SECRET_KEY = 'django-insecure-3=+$y7e)7sw&4c)v!&f$d*_6147a%&h1(vg(b6k96#r6t=&3lf
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -108,7 +106,6 @@ STATICFILES_DIRS = [
 WSGI_APPLICATION = 'language_exchange.wsgi.application'
 ASGI_APPLICATION = 'language_exchange.asgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
@@ -127,7 +124,6 @@ CHANNEL_LAYERS = {
         },
     },
 }
-
 
 # CHANNEL_LAYERS = {
 #     'default': {
@@ -157,7 +153,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 
@@ -168,7 +163,6 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/

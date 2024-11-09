@@ -52,3 +52,63 @@ INFO 2024-11-08 13:35:44,355 views notification 34 decline Mari
 INFO 2024-11-08 13:39:37,736 views notification 35 decline Eva
 INFO 2024-11-08 13:39:38,456 views notification 36 decline Eva
 INFO 2024-11-08 13:49:37,101 views notification 37 decline Eva
+INFO 2024-11-09 10:50:08,558 views notification 38 decline Mari
+INFO 2024-11-09 10:51:25,020 views notification 39 decline Mari
+INFO 2024-11-09 10:52:11,984 views notification 40 decline Mari
+INFO 2024-11-09 10:53:28,282 views notification 41 decline Mari
+INFO 2024-11-09 10:54:23,828 views notification 42 decline Mari
+INFO 2024-11-09 10:54:37,241 views notification 43 accept Mari
+ERROR 2024-11-09 10:56:31,664 views failed accept notification None user Mari | 'NoneType' object has no attribute 'room'
+ERROR 2024-11-09 10:56:36,256 views failed accept notification None user Mari | 'NoneType' object has no attribute 'room'
+ERROR 2024-11-09 10:56:37,430 views failed accept notification None user Mari | 'NoneType' object has no attribute 'room'
+ERROR 2024-11-09 10:56:38,214 views failed accept notification None user Mari | 'NoneType' object has no attribute 'room'
+ERROR 2024-11-09 10:56:40,382 views failed accept notification None user Mari | 'NoneType' object has no attribute 'room'
+ERROR 2024-11-09 10:56:40,874 views failed accept notification None user Mari | 'NoneType' object has no attribute 'room'
+ERROR 2024-11-09 10:56:41,355 views failed accept notification None user Mari | 'NoneType' object has no attribute 'room'
+INFO 2024-11-09 11:01:03,107 views notification 44 decline Mari
+INFO 2024-11-09 11:01:20,107 views notification 45 decline Mari
+INFO 2024-11-09 11:01:35,431 views notification 46 decline Mari
+INFO 2024-11-09 11:04:31,617 views notification 47 decline Mari
+INFO 2024-11-09 11:04:55,431 views notification 48 decline Mari
+INFO 2024-11-09 11:05:39,701 views notification 49 decline Mari
+INFO 2024-11-09 11:05:54,664 views notification 50 decline Mari
+INFO 2024-11-09 11:07:34,932 views notification 51 decline Mari
+INFO 2024-11-09 11:08:17,513 views notification 52 decline Mari
+INFO 2024-11-09 11:11:55,141 views notification 53 decline Mari
+INFO 2024-11-09 11:13:30,385 views notification 54 decline Mari
+INFO 2024-11-09 11:18:43,064 views notification 55 decline Mari
+ERROR 2024-11-09 11:18:46,805 views failed to create dialogue room user Eva | can not serialize 'set' object
+INFO 2024-11-09 11:18:56,016 views notification 56 decline Mari
+ERROR 2024-11-09 11:18:59,844 views failed to create dialogue room user Eva | can not serialize 'set' object
+INFO 2024-11-09 11:19:14,976 views notification 57 decline Mari
+INFO 2024-11-09 11:20:18,129 views notification 58 decline Mari
+INFO 2024-11-09 11:23:16,372 views notification 59 decline Mari
+INFO 2024-11-09 11:24:32,090 views notification 60 decline Mari
+INFO 2024-11-09 11:27:02,694 views notification 61 decline Mari
+INFO 2024-11-09 11:27:44,473 views notification 62 decline Mari
+INFO 2024-11-09 11:27:55,387 views notification 63 decline Mari
+INFO 2024-11-09 11:28:06,885 views notification 64 decline Mari
+INFO 2024-11-09 11:37:36,265 views notification 65 decline Mari
+INFO 2024-11-09 11:42:49,350 views notification 66 decline Mari
+INFO 2024-11-09 11:43:50,391 views notification 67 decline Mari
+INFO 2024-11-09 11:47:05,684 views notification 68 decline Mari
+INFO 2024-11-09 11:48:00,852 views notification 69 decline Mari
+INFO 2024-11-09 12:01:42,611 views notification 70 decline Mari
+INFO 2024-11-09 12:01:46,300 views notification 71 accept Mari
+INFO 2024-11-09 12:03:30,549 views notification 72 decline Mari
+INFO 2024-11-09 12:03:34,711 views notification 73 decline Mari
+INFO 2024-11-09 12:04:28,118 views notification 75 accept Mari
+INFO 2024-11-09 12:04:30,209 views notification 74 accept Mari
+INFO 2024-11-09 12:05:23,803 views notification 77 accept Mari
+INFO 2024-11-09 12:05:35,750 views notification 76 accept Mari
+INFO 2024-11-09 12:05:42,524 views notification 78 accept Mari
+INFO 2024-11-09 12:08:40,795 views notification 79 accept Mari
+INFO 2024-11-09 12:08:47,279 views notification 80 decline Mari
+INFO 2024-11-09 12:08:54,075 views notification 81 accept Mari
+INFO 2024-11-09 12:35:55,010 views added is user skill Mari
+INFO 2024-11-09 12:36:01,459 views added is user skill Mari
+INFO 2024-11-09 12:36:14,276 views  skill has been deleted for the user Mari
+INFO 2024-11-09 12:36:14,819 views  skill has been deleted for the user Mari
+ERROR 2024-11-09 12:46:41,015 views error getting ads list user Mari | no such column: advertisements_advertisement.data
+ERROR 2024-11-09 12:46:42,088 views error getting ads list user Mari | no such column: advertisements_advertisement.data
+ERROR 2024-11-09 12:46:42,815 views error getting ads list user Mari | no such column: advertisements_advertisement.data
