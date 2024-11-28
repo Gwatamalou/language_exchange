@@ -92,7 +92,7 @@
         };
 
         document.querySelector('#end-chat').onclick = function () {
-            window.location.href = "{% url 'ads_list' %}";
+            window.location.href = "{% url 'ads_list' 'all'%}";
         };
 
         // Начинаем поток локального видео

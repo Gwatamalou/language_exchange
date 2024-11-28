@@ -19,7 +19,7 @@ def _get_user_data(user_id):
 
 
 def _get_user_language_skills(user_id):
-    return LanguageSkill.objects.filter(user_id=user_id)
+    return LanguageSkill.objects.filter(user_id=user_id).order_by('language')
 
 
 def _get_user_avatar_url(user_id):
@@ -35,7 +35,6 @@ def get_user_data(user_id):
 def update_avatar(profile, avatar):
     if avatar.size > 8 * 1024 * 1024:
         raise ValidationError('file size is too big')
-    # добавить логику обработки формата изображения
     profile.avatar = avatar
     profile.save()
 

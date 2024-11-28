@@ -1,15 +1,26 @@
 <div class="content-list">
     {% for ads_data in ads_with_languages %}
-        {% if user_id != ads_data.ads.user.id %}
-            <a href="{% url 'ads' ads_data.ads.id %}">
-        {% endif %}
+    {% if user_id != ads_data.ads.user.id %}
+        <a href="{% url 'ads' ads_data.ads.id %}">
+    {% endif %}
     <div id="core">
-        <img id="mini_avatar" src="{{ ads_data.avatar_url }}">
-        <p>{{ ads_data.ads.user.username }} | ЗНАЕТ
-            {% for skill in ads_data.language_skills %}
-                {{ skill.language }} ({{ skill.level_skill }}){% if not forloop.last %}, {% endif %}
-            {% endfor %} |
-            ИЗУЧАЕТ {{ ads_data.ads.language_to_learn }} | {{ ads_data.ads.language_level_to_learn }}</p>
+        <img id="mini_avatar" src="{{ ads_data.avatar_url|default_if_none:'#' }}">
+        {% if ads_data.language_skills|length > 1 %}
+            <p title="ЗНАЕТ:
+                        {% for skill in ads_data.language_skills %}
+                            {{ skill.language }} ({{ skill.level_skill }}){% if not forloop.last %}, {% endif %}
+                        {% endfor %}">
+        {% else %}
+            <p>
+        {% endif %}
+        {{ ads_data.ads.user.username }} | ЗНАЕТ
+        {% if ads_data.language_skills|length > 0 %}
+            {{ ads_data.language_skills.0.language }} ({{ ads_data.language_skills.0.level_skill }})
+        {% else %}
+            <i>Нет данных о языках</i>
+        {% endif %}
+        | ИЗУЧАЕТ {{ ads_data.ads.language_to_learn }} | {{ ads_data.ads.language_level_to_learn }}
+        </p>
 
         {% if user_id == ads_data.ads.user.id %}
             <div id="button-in-form">

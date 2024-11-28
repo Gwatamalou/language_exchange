@@ -5,6 +5,12 @@
     <a href="{% url 'add-ads' %}">
         <button type="button">Создать</button>
     </a>
+    <a href="{% url 'ads_list' 'all' %}">
+        <button type="button">Все</button>
+    </a>
+    <a href="{% url 'ads_list' 'my' %}">
+        <button type="button">Мои</button>
+    </a>
     {% include 'advertisements/include/ads_list.html' %}
 
 {% endblock %}

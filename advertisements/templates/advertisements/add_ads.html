@@ -8,6 +8,7 @@
         {% csrf_token %}
         <button type="submit">Создать</button>
     </form>
+        <a href="{% url "ads_list" "all" %}"><button type="submit">Отмена</button></a>
     </div>
     </div>
 {% endblock %}

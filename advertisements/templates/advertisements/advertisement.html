@@ -19,6 +19,7 @@
               {% csrf_token %}
               <button type="submit" name="choose" value="{{ advertisement.id }}">Выбрать</button>
             </form>
+            <a href="{% url "ads_list" "all" %}"><button type="submit">Назад</button></a>
         </div>
         </div>
     </div>

@@ -121,3 +121,37 @@ ERROR 2024-11-09 14:01:18,283 views error getting ads list user Mari | 'QuerySet
 ERROR 2024-11-09 14:05:22,691 views error getting ads list user Mari | name 'user' is not defined
 INFO 2024-11-09 14:26:23,606 views added is user skill Mari
 INFO 2024-11-09 14:26:47,936 views added is user skill Mari
+INFO 2024-11-10 10:11:02,817 views delete ads 32 user Mari
+INFO 2024-11-10 10:12:46,814 views delete ads 28 user Mari
+INFO 2024-11-10 10:12:48,591 views delete ads 31 user Mari
+INFO 2024-11-10 10:12:49,756 views delete ads 30 user Mari
+INFO 2024-11-10 10:13:09,101 views delete ads 29 user Mari
+INFO 2024-11-10 10:23:32,962 views delete ads 34 user Mari
+INFO 2024-11-10 10:23:33,492 views delete ads 33 user Mari
+INFO 2024-11-10 10:23:57,242 views delete ads 36 user Mari
+INFO 2024-11-10 10:30:36,280 views delete ads 37 user Mari
+INFO 2024-11-10 10:37:05,710 views  skill has been deleted for the user Mari
+INFO 2024-11-10 10:37:07,584 views  skill has been deleted for the user Mari
+INFO 2024-11-10 10:37:10,392 views added is user skill Mari
+INFO 2024-11-10 10:39:41,587 views added is user skill Eva
+INFO 2024-11-10 10:39:44,266 views added is user skill Eva
+INFO 2024-11-10 11:04:39,150 views  skill has been deleted for the user Eva
+INFO 2024-11-10 11:14:41,053 views notification 82 decline Eva
+INFO 2024-11-10 11:14:48,291 views notification 83 accept Eva
+INFO 2024-11-10 11:22:00,602 views notification 84 accept Mari
+INFO 2024-11-10 11:34:48,737 views notification 85 accept Mari
+INFO 2024-11-10 11:42:04,158 views notification 86 accept Mari
+INFO 2024-11-10 11:52:57,719 views notification 87 accept Mari
+INFO 2024-11-10 11:55:35,569 views notification 88 accept Mari
+INFO 2024-11-10 12:05:30,225 views notification 89 accept Mari
+INFO 2024-11-10 12:53:35,701 views notification 90 accept Eva
+INFO 2024-11-10 12:54:22,064 views notification 91 accept Mari
+INFO 2024-11-10 12:55:48,368 views notification 92 accept Mari
+INFO 2024-11-12 13:07:43,883 views added is user skill Mari
+INFO 2024-11-12 13:07:49,519 views added is user skill Mari
+INFO 2024-11-12 13:07:56,471 views added is user skill Mari
+INFO 2024-11-12 13:08:01,830 views added is user skill Mari
+INFO 2024-11-12 13:08:10,958 views  skill has been deleted for the user Mari
+INFO 2024-11-12 13:08:11,341 views  skill has been deleted for the user Mari
+INFO 2024-11-12 13:17:42,465 views added is user skill Mari
+INFO 2024-11-28 15:07:20,979 views notification 94 accept Mari

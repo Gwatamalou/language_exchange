@@ -1,4 +1,4 @@
-version: 'v2.29.7'
+version: '3'
 
 services:
   web:
@@ -9,6 +9,7 @@ services:
       - redis
     environment:
       - REDIS_HOST=redis
+      - ALLOWED_HOST=192.168.0.9
     volumes:
       - .:/app
 
