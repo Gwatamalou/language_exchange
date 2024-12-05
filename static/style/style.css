@@ -1,0 +1,11 @@
+.mh-350 {
+    height: 350px;
+    max-height: 350px;
+
+}
+#avatar {
+    max-height: 350px;
+    width: auto;
+    border-radius: 10%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}

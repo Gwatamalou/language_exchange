@@ -14,12 +14,10 @@ __all__ = [
 
 
 def get_current_language_skill(skill_id):
-    """возвращает данные о выбранном языке и уровне владения"""
     return get_object_or_404(LanguageSkill, id=skill_id)
 
 
 def is_skill_owner(skill, user):
-    """Проверка, является ли пользователь владельцем навыка"""
     return skill.user == user
 
 
@@ -36,7 +34,6 @@ def add_language_skill(user, form):
 
 @transaction.atomic
 def update_language_skill(user, form):
-    """Обновление языкового навыка"""
     if form.is_valid():
         language_skill = form.save(commit=False)
         if not LanguageSkill.objects.filter(user=user, language=language_skill.language,

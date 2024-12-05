@@ -7,8 +7,6 @@ from users.models import LanguageSkill, UserProfile
 
 __all__ = ['get_user_data',
            'register_user',
-           'get_object_or_error',
-           'get_object_if_any',
            'update_avatar',
            ]
 
@@ -47,11 +45,3 @@ def register_user(form):
 
 
 
-def get_object_or_error(model, **kwargs):
-    """Получение данных или страницы 404"""
-    return get_object_or_404(model, **kwargs)
-
-
-def get_object_if_any(model, **kwargs):
-    """Получение данных если есть"""
-    return model.objects.filter(**kwargs)

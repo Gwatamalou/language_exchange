@@ -11,6 +11,10 @@ class UserProfile(models.Model):
     avatar = models.ImageField(upload_to='images/', blank=True, null=True, default='images/default.png')
 
 
+    def get_absolute_url(self):
+        pass
+
+
 class LanguageSkill(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     language = models.CharField(max_length=30, choices=LANGUAGE_LIST, default='')

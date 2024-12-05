@@ -2,39 +2,39 @@
 {% load static %}
 
 {% block content %}
-    <h1 id="title">Профиль</h1>
-    <div class="information">
-
-
-        <form id="avatar-form" method="POST" enctype="multipart/form-data">
-            {% csrf_token %}
-            <div id="avatar-container" >
-            <img id="avatar" src="{{ avatar_url }}" alt="avatar">
-            <span id="hover-text">Изменить изображение</span>
+    <h1 class="text-center mt-3" id="title">Профиль</h1>
+    <div class="container-xl mh-350 my-5">
+        <div class="row">
+            <div class="col-md-6 text-md-end col-12 text-center">
+                <form id="avatar-form" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div id="avatar-container">
+                        <img id="avatar" src="{{ avatar_url }}" alt="avatar" class="img-fluid">
+                        <span id="hover-text"></span>
+                    </div>
+                    <input type="file" id="avatar-input" name="avatar" style="display: none;" accept="image/*">
+                </form>
             </div>
-
-            <input type="file" id="avatar-input" name="avatar" style="display: none;" accept="image/*">
-        </form>
-
-        <dl>
-            <dt>ID</dt>
-            <dd>{{ user.id }}</dd>
-            <dt>Имя</dt>
-            <dd>{{ user.username }}</dd>
-            <dt><a href="{% url 'password-change' %}"><button>Сменить пароль</button></a></dt>
-            <form method="POST" action="{% url 'logout' %}">
-                {% csrf_token %}
-                <button type="submit">Выйти</button>
-            </form>
-        </dl>
+            <div class="col-md-6 text-md-start col-12 text-center py-2">
+                    <p><strong>ID: </strong>{{ user.id }}</p>
+                    <p><strong>Имя: </strong>{{ user.username }}</p>
+                    <p><a href="{% url 'password-change' %}">
+                        <button>Сменить пароль</button>
+                    </a></p>
+                    <form method="POST" action="{% url 'logout' %}">
+                        {% csrf_token %}
+                        <button type="submit">Выйти</button>
+                    </form>
+            </div>
+        </div>
     </div>
 
-    <div class="add_language_skill">
+    <div class="ap_language_skill">
         <form method="POST">
             {% csrf_token %}
             {{ form.language }}
             {{ form.level_skill }}
-            <button name="add_skill">Добавить</button>
+            <button name="ap_skill">Добавить</button>
         </form>
     </div>
 
