@@ -13,8 +13,10 @@ urlpatterns = [
     path('password_change/', auth_views.PasswordChangeView.as_view(), name='password-change'),
     path('password_reset/', auth_views.PasswordResetView.as_view(), name='password-reset'),
     path('profile/<slug:user_id>/', views.UserProfileView.as_view(), name='user-profile'),
-    path('update_skill/<int:skill_id>/', views.UpdateLanguageSkillView.as_view(), name='update-skill'),
+    # path('update_skill/<int:skill_id>/', views.UpdateLanguageSkillView.as_view(), name='update-skill'),
     path('notification/', views.NotificationView.as_view(), name='notification-list'),
+    path('password_change/', auth_views.PasswordChangeView.as_view(), name='password_change'),
+    path('password_change/done/', auth_views.PasswordChangeDoneView.as_view(), name='password_change_done'),
 
 ]
 

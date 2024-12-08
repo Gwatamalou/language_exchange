@@ -86,7 +86,24 @@ class UserProfileView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
             else:
                 logger.warning(f'skill addition form is invalid for the user {self.request.user}')
 
-            return redirect('user-profile', user_id=self.request.user.id)
+
+        elif 'update_skill' in self.request.POST:
+            skill_id = request.POST.get('skill_id')
+            skill = get_current_language_skill(skill_id)
+
+            if is_skill_owner(skill, request.user):
+                form = LanguageSkillForm(request.POST, instance=skill)
+                if form.is_valid():
+                    try:
+                        update_language_skill(self.request.user.id, form)
+                        logger.info(f'skill updated for user {self.request.user}')
+                    except Exception as e:
+                        logger.error(f'error updating skill for user {self.request.user} | {e}')
+                else:
+                    logger.warning(f'skill update form is invalid for user {self.request.user}')
+            else:
+                logger.warning(f'user {self.request.user} attempted to update someone else\'s skill')
+
 
 
         elif "delete_skill_id" in self.request.POST:
@@ -103,7 +120,6 @@ class UserProfileView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
                 logger.warning(f'user {self.request.user} attempt to delete someone`s skill')
 
 
-            return redirect('user-profile', user_id=self.request.user.id)
 
 
         elif "avatar" in self.request.FILES:
@@ -116,32 +132,32 @@ class UserProfileView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
                 except Exception as e:
                     logger.error(f'error add new avatar for user {self.request.user} | {e}')
 
-            return redirect('user-profile', user_id=request.user.id)
-
-
-class UpdateLanguageSkillView(LoginRequiredMixin, UpdateView):
-    form_class = LanguageSkillForm
-    template_name = 'users/update_language_skill.html'
-    context_object_name = 'skill'
-
-    def get_object(self, queryset=None):
-        skill_id = self.kwargs['skill_id']
-        skill = get_current_language_skill(skill_id)
-        print(skill.user.id)
-        return skill
-
-    def get_form_kwargs(self):
-        kwargs = super().get_form_kwargs()
-        kwargs.update({
-            'instance': self.get_object(),
-            'language_readonly': True,
-        })
-        return kwargs
-
-    def form_valid(self, form):
-        form.instance.user = self.request.user
-        update_language_skill(self.request.user.id, form)
         return redirect('user-profile', user_id=self.request.user.id)
+
+
+# class UpdateLanguageSkillView(LoginRequiredMixin, UpdateView):
+#     form_class = LanguageSkillForm
+#     template_name = 'users/update_language_skill.html'
+#     context_object_name = 'skill'
+#
+#     def get_object(self, queryset=None):
+#         skill_id = self.kwargs['skill_id']
+#         skill = get_current_language_skill(skill_id)
+#         print(skill.user.id)
+#         return skill
+#
+    # def get_form_kwargs(self):
+    #     kwargs = super().get_form_kwargs()
+    #     kwargs.update({
+    #         'instance': self.get_object(),
+    #         'language_readonly': True,
+    #     })
+    #     return kwargs
+#
+#     def form_valid(self, form):
+#         form.instance.user = self.request.user
+#         update_language_skill(self.request.user.id, form)
+#         return redirect('user-profile', user_id=self.request.user.id)
 
 
 class NotificationView(LoginRequiredMixin, ListView):

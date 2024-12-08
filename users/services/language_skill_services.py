@@ -23,7 +23,6 @@ def is_skill_owner(skill, user):
 
 @transaction.atomic
 def add_language_skill(user, form):
-    if form.is_valid():
         language_skill = form.save(commit=False)
         if not LanguageSkill.objects.filter(user=user, language=language_skill.language).exists():
             language_skill.user = user

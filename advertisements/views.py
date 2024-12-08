@@ -1,5 +1,6 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Prefetch, Case, When, IntegerField
+from django.http import JsonResponse
 from django.shortcuts import redirect, get_object_or_404
 from django.views.generic import ListView, DetailView, FormView
 from advertisements.froms import AdvertisementForm
@@ -128,7 +129,19 @@ class MakeAdvertisement(LoginRequiredMixin, FormView):
 
     def form_valid(self, form):
         try:
+            # Создаём объявление
             add_new_advertisement(self.request.user, form)
+            response = {'status': 'success', 'message': 'Объявление успешно создано.'}
         except Exception as e:
-            logger.error(f'failed to create new ads user {self.request.user} | {e}')
+            logger.error(f'Failed to create new ad for user {self.request.user} | {e}')
+            response = {'status': 'error', 'message': 'Произошла ошибка при создании объявления.'}
+
+        if self.request.is_ajax():
+            return JsonResponse(response)
         return redirect('ads_list', 'my')
+
+    def form_invalid(self, form):
+        response = {'status': 'error', 'message': 'Пожалуйста, исправьте ошибки в форме.'}
+        if self.request.is_ajax():
+            return JsonResponse(response)
+        return super().form_invalid(form)

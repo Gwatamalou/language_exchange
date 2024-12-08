@@ -1,29 +1,45 @@
 {% extends 'base.html' %}
 
-
 {% block content %}
+    <h1 class="text-center mt-3" id="title">{{ advertisement.user.username }}</h1>
 
-    <h1 id="title">{{ advertisement.user.username }}</h1>
+    <div class="container-xl mh-350 my-5">
+        <div class="row mb-5">
+            <div class="col-12 text-center">
+                <img id="avatar" src="{{ avatar_url }}" alt="Avatar">
+            </div>
+        </div>
 
-    <div class="choose_lesson ">
-        <img id="avatar" src={{ avatar_url }} alt="ava">
-        <div class="lesson_info">
-        <div class="lesson_ads">
-            <h3>Знает</h3>
-            {% for skill in user_language_skills %}
-                <p>{{ skill.language }} -  {{ skill.level_skill }}</p>
-            {% endfor %}
-            <h3>Изучает</h3>
-            <p>{{ advertisement.language_to_learn }} {{ advertisement.language_level_to_learn }}
-            <form method="POST">
-              {% csrf_token %}
-              <button type="submit" name="choose" value="{{ advertisement.id }}">Выбрать</button>
-            </form>
-            <a href="{% url "ads_list" "all" %}"><button type="submit">Назад</button></a>
+        <div class="row mb-5">
+            <!-- Знает -->
+            <div class="col-md-6 text-md-end col-12 text-center">
+                <h3>Знает</h3>
+                {% for skill in user_language_skills %}
+                    <p>{{ skill.language }} - {{ skill.level_skill }}</p>
+                {% endfor %}
+            </div>
+
+            <!-- Изучает -->
+            <div class="col-md-6 text-md-start col-12 text-center py-2">
+                <h3>Изучает</h3>
+                <p>{{ advertisement.language_to_learn }} {{ advertisement.language_level_to_learn }}</p>
+            </div>
         </div>
-        </div>
+
+        <div class="row">
+    <div class="content-list d-flex justify-content-center align-items-center w-100">
+        <form method="POST" class="me-2">
+            {% csrf_token %}
+            <button type="submit" name="choose" value="{{ advertisement.id }}" class="btn btn-primary">
+                Выбрать
+            </button>
+        </form>
+        <a href="{% url 'ads_list' 'all' %}" class="btn btn-secondary">
+            Назад
+        </a>
     </div>
-     {% include 'advertisements/include/ads_list.html'%}
+</div>
+    </div>
 
-
+    {% include 'advertisements/include/ads_list.html' %}
 {% endblock %}

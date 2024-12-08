@@ -2,117 +2,159 @@
 
 {% block content %}
 
-    <h1>Room: {{ room_name }}</h1>
-    <div id="video_chat">
-        <video id="localVideo" autoplay muted style="background: #53B3FF"></video>
-        <video id="remoteVideo" autoplay style="background: #999999"></video>
+<div class="container d-flex flex-column align-items-center justify-content-center vh-100 my-5">
+    <!-- Видео собеседника -->
+    <div class="position-relative mb-4" style="width: 100%; max-width: 800px; aspect-ratio: 16/9; background-color: #999999; border-radius: 10px; overflow: hidden;">
+        <video id="remoteVideo" autoplay style="width: 100%; height: 100%; object-fit: cover;"></video>
+
+        <!-- Локальное видео -->
+        <div class="position-absolute bottom-0 start-0 p-2">
+            <video id="localVideo" autoplay muted class="rounded-circle border" style="width: 100px; height: 100px; object-fit: cover; background: #53B3FF;"></video>
+        </div>
+
+        <!-- Кнопка "Закончить" -->
+        <button id="end-chat" class="btn btn-danger rounded-circle position-absolute bottom-0 end-0 m-3" style="width: 50px; height: 50px;">
+            &#10005;
+        </button>
+
+        <!-- Кнопки управления видео и микрофоном -->
+        <div class="d-flex justify-content-center position-absolute bottom-0 start-50 translate-middle-x mb-3">
+            <button id="toggle-video" class="btn btn-secondary rounded-circle me-3" style="width: 50px; height: 50px;">
+                🎥
+            </button>
+            <button id="toggle-audio" class="btn btn-secondary rounded-circle" style="width: 50px; height: 50px;">
+                🎤
+            </button>
+        </div>
     </div>
 
-    <button id="chat-message-submit">Отправить</button>
-    <button id="end-chat">Закончить</button>
-    <input id="chat-message-input" type="text" size="100">
-    <div id="chat-log"></div>
+    <!-- Чат -->
+    <div class="chat-container bg-light border rounded p-3" style="width: 100%; max-width: 600px; height: 300px; overflow-y: auto; display: flex; flex-direction: column-reverse;">
+        <div id="chat-log" class="chat-log">
+            <!-- Сообщения чата будут добавляться сюда -->
+        </div>
+    </div>
 
-    <script>
-        const roomName = "{{ room_name }}";
-        const username = "{{ request.user.username }}";
-        const chatSocket = new WebSocket(
-            'ws://' + window.location.host + '/ws/chat/' + roomName + '/');
+    <!-- Поля ввода и кнопка "Отправить" -->
+    <div class="d-flex mt-3" style="width: 100%; max-width: 600px;">
+        <input id="chat-message-input" type="text" class="form-control me-2" placeholder="Введите сообщение">
+        <button id="chat-message-submit" class="btn btn-primary">Отправить</button>
+    </div>
+</div>
 
-        const localVideo = document.getElementById('localVideo');
-        const remoteVideo = document.getElementById('remoteVideo');
+<script>
+    const roomName = "{{ room_name }}";
+    const username = "{{ request.user.username }}";
+    const chatSocket = new WebSocket(
+        'ws://' + window.location.host + '/ws/chat/' + roomName + '/');
 
-        // Настройки WebRTC
-        let localStream;
-        let peerConnection;
-        const configuration = {
-            iceServers: [{urls: 'stun:stun.l.google.com:19302'}]
-        };
+    const localVideo = document.getElementById('localVideo');
+    const remoteVideo = document.getElementById('remoteVideo');
+    const toggleVideoButton = document.getElementById('toggle-video');
+    const toggleAudioButton = document.getElementById('toggle-audio');
+    let localStream;
 
-        async function startLocalVideo() {
-            try {
-                localStream = await navigator.mediaDevices.getUserMedia({video: true, audio: true});
-                localVideo.srcObject = localStream;
+    // Настройки WebRTC
+    let peerConnection;
+    const configuration = {
+        iceServers: [{urls: 'stun:stun.l.google.com:19302'}]
+    };
 
-                // Создаем PeerConnection, когда локальный поток доступен
-                createPeerConnection();
-            } catch (error) {
-                console.error("Ошибка доступа к медиа-устройствам.", error);
-            }
+    async function startLocalVideo() {
+        try {
+            localStream = await navigator.mediaDevices.getUserMedia({video: true, audio: true});
+            localVideo.srcObject = localStream;
+
+            // Создаем PeerConnection, когда локальный поток доступен
+            createPeerConnection();
+        } catch (error) {
+            console.error("Ошибка доступа к медиа-устройствам.", error);
         }
+    }
 
-        function createPeerConnection() {
-            peerConnection = new RTCPeerConnection(configuration);
+    function createPeerConnection() {
+        peerConnection = new RTCPeerConnection(configuration);
 
-            // Добавляем локальные треки в PeerConnection
-            localStream.getTracks().forEach(track => {
-                peerConnection.addTrack(track, localStream);
-            });
+        // Добавляем локальные треки в PeerConnection
+        localStream.getTracks().forEach(track => {
+            peerConnection.addTrack(track, localStream);
+        });
 
-            // Обработка удаленного потока
-            peerConnection.ontrack = (event) => {
-                remoteVideo.srcObject = event.streams[0];
-            };
-
-            // Обработка ICE-кандидатов
-            peerConnection.onicecandidate = (event) => {
-                if (event.candidate) {
-                    chatSocket.send(JSON.stringify({
-                        'ice': event.candidate,
-                        'username': username
-                    }));
-                }
-            };
-        }
-
-        chatSocket.onmessage = async function (e) {
-            const data = JSON.parse(e.data);
-            const chatLog = document.querySelector('#chat-log');
-            chatLog.innerHTML += '<br><b>' + data.username + ':</b> ' + data.message;
-            chatLog.scrollTop = chatLog.scrollHeight;
-
-            // Обработка сообщений SDP и ICE
-            if (data.sdp) {
-                await handleSDP(data.sdp);
-            } else if (data.ice) {
-                await handleICE(data.ice);
-            }
+        // Обработка удаленного потока
+        peerConnection.ontrack = (event) => {
+            remoteVideo.srcObject = event.streams[0];
         };
-
-        document.querySelector('#chat-message-submit').onclick = function () {
-            const messageInputDom = document.querySelector('#chat-message-input');
-            const message = messageInputDom.value;
-
-            chatSocket.send(JSON.stringify({
-                'username': username,
-                'message': message
-            }));
-
-            messageInputDom.value = '';
-        };
-
-        document.querySelector('#end-chat').onclick = function () {
-            window.location.href = "{% url 'ads_list' 'all'%}";
-        };
-
-        // Начинаем поток локального видео
-        startLocalVideo();
-
-        // Обработка SDP
-        async function handleSDP(sdp) {
-            await peerConnection.setRemoteDescription(new RTCSessionDescription(sdp));
-            const answer = await peerConnection.createAnswer();
-            await peerConnection.setLocalDescription(answer);
-            chatSocket.send(JSON.stringify({
-                'sdp': answer,
-                'username': username
-            }));
-        }
 
         // Обработка ICE-кандидатов
-        async function handleICE(ice) {
-            await peerConnection.addIceCandidate(new RTCIceCandidate(ice));
-        }
+        peerConnection.onicecandidate = (event) => {
+            if (event.candidate) {
+                chatSocket.send(JSON.stringify({
+                    'ice': event.candidate,
+                    'username': username
+                }));
+            }
+        };
+    }
 
-    </script>
+    toggleVideoButton.onclick = () => {
+        const videoTrack = localStream.getVideoTracks()[0];
+        videoTrack.enabled = !videoTrack.enabled;
+        toggleVideoButton.classList.toggle('btn-danger');
+    };
+
+    toggleAudioButton.onclick = () => {
+        const audioTrack = localStream.getAudioTracks()[0];
+        audioTrack.enabled = !audioTrack.enabled;
+        toggleAudioButton.classList.toggle('btn-danger');
+    };
+
+    chatSocket.onmessage = async function (e) {
+        const data = JSON.parse(e.data);
+        const chatLog = document.querySelector('#chat-log');
+        const messageElement = document.createElement('div');
+
+        messageElement.className = data.username === username ? 'text-end text-primary' : 'text-start text-secondary';
+        messageElement.innerHTML = `<b>${data.username}:</b> ${data.message}`;
+        chatLog.prepend(messageElement);
+
+        if (data.sdp) {
+            await handleSDP(data.sdp);
+        } else if (data.ice) {
+            await handleICE(data.ice);
+        }
+    };
+
+    document.querySelector('#chat-message-submit').onclick = function () {
+        const messageInputDom = document.querySelector('#chat-message-input');
+        const message = messageInputDom.value;
+
+        chatSocket.send(JSON.stringify({
+            'username': username,
+            'message': message
+        }));
+
+        messageInputDom.value = '';
+    };
+
+    document.querySelector('#end-chat').onclick = function () {
+        window.location.href = "{% url 'ads_list' 'all'%}";
+    };
+
+    startLocalVideo();
+
+    async function handleSDP(sdp) {
+        await peerConnection.setRemoteDescription(new RTCSessionDescription(sdp));
+        const answer = await peerConnection.createAnswer();
+        await peerConnection.setLocalDescription(answer);
+        chatSocket.send(JSON.stringify({
+            'sdp': answer,
+            'username': username
+        }));
+    }
+
+    async function handleICE(ice) {
+        await peerConnection.addIceCandidate(new RTCIceCandidate(ice));
+    }
+</script>
+
 {% endblock %}
