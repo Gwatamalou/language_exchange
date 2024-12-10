@@ -43,118 +43,161 @@
 </div>
 
 <script>
-    const roomName = "{{ room_name }}";
-    const username = "{{ request.user.username }}";
-    const chatSocket = new WebSocket(
-        'ws://' + window.location.host + '/ws/chat/' + roomName + '/');
+  const roomName = "{{ room_name }}";
+const username = "{{ request.user.username }}";
+const chatSocket = new WebSocket(
+    'ws://' + window.location.host + '/ws/chat/' + roomName + '/'
+);
 
-    const localVideo = document.getElementById('localVideo');
-    const remoteVideo = document.getElementById('remoteVideo');
-    const toggleVideoButton = document.getElementById('toggle-video');
-    const toggleAudioButton = document.getElementById('toggle-audio');
-    let localStream;
+const localVideo = document.getElementById('localVideo');
+const remoteVideo = document.getElementById('remoteVideo');
+const toggleVideoButton = document.getElementById('toggle-video');
+const toggleAudioButton = document.getElementById('toggle-audio');
+let localStream;
 
-    // Настройки WebRTC
-    let peerConnection;
-    const configuration = {
-        iceServers: [{urls: 'stun:stun.l.google.com:19302'}]
+let peerConnection;
+const configuration = {
+    iceServers: [{ urls: 'stun:stun.l.google.com:19302' }]
+};
+
+// Функция для запуска локального видео
+async function startLocalVideo() {
+    try {
+        localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+        localVideo.srcObject = localStream;
+        createPeerConnection();
+    } catch (error) {
+        console.error("Ошибка доступа к медиа-устройствам:", error);
+    }
+}
+
+// Создание RTCPeerConnection
+function createPeerConnection() {
+    peerConnection = new RTCPeerConnection(configuration);
+
+    // Добавление треков локального стрима
+    localStream.getTracks().forEach(track => {
+        peerConnection.addTrack(track, localStream);
+    });
+
+    // Обработка получения удалённого трека
+    peerConnection.ontrack = (event) => {
+        if (event.streams && event.streams[0]) {
+            console.log("Получен удалённый поток:", event.streams[0]);
+            remoteVideo.srcObject = event.streams[0];
+        } else {
+            console.warn("Нет доступных потоков в ontrack.");
+        }
     };
 
-    async function startLocalVideo() {
-        try {
-            localStream = await navigator.mediaDevices.getUserMedia({video: true, audio: true});
-            localVideo.srcObject = localStream;
-
-            // Создаем PeerConnection, когда локальный поток доступен
-            createPeerConnection();
-        } catch (error) {
-            console.error("Ошибка доступа к медиа-устройствам.", error);
+    // Обработка ICE-кандидатов
+    peerConnection.onicecandidate = (event) => {
+        if (event.candidate) {
+            chatSocket.send(JSON.stringify({
+                'ice': event.candidate,
+                'username': username
+            }));
         }
-    }
+    };
 
-    function createPeerConnection() {
-        peerConnection = new RTCPeerConnection(configuration);
+    // Обработка изменений состояния соединения
+    peerConnection.onconnectionstatechange = () => {
+        console.log("Connection state:", peerConnection.connectionState);
+        if (peerConnection.connectionState === "failed") {
+            console.error("Соединение WebRTC не удалось.");
+        }
+    };
 
-        // Добавляем локальные треки в PeerConnection
-        localStream.getTracks().forEach(track => {
-            peerConnection.addTrack(track, localStream);
-        });
+    peerConnection.oniceconnectionstatechange = () => {
+        console.log("ICE state:", peerConnection.iceConnectionState);
+    };
+}
 
-        // Обработка удаленного потока
-        peerConnection.ontrack = (event) => {
-            remoteVideo.srcObject = event.streams[0];
-        };
-
-        // Обработка ICE-кандидатов
-        peerConnection.onicecandidate = (event) => {
-            if (event.candidate) {
-                chatSocket.send(JSON.stringify({
-                    'ice': event.candidate,
-                    'username': username
-                }));
-            }
-        };
-    }
-
-    toggleVideoButton.onclick = () => {
-        const videoTrack = localStream.getVideoTracks()[0];
+// Переключение видео
+toggleVideoButton.onclick = () => {
+    const videoTrack = localStream.getVideoTracks()[0];
+    if (videoTrack) {
         videoTrack.enabled = !videoTrack.enabled;
         toggleVideoButton.classList.toggle('btn-danger');
-    };
+    }
+};
 
-    toggleAudioButton.onclick = () => {
-        const audioTrack = localStream.getAudioTracks()[0];
+// Переключение аудио
+toggleAudioButton.onclick = () => {
+    const audioTrack = localStream.getAudioTracks()[0];
+    if (audioTrack) {
         audioTrack.enabled = !audioTrack.enabled;
         toggleAudioButton.classList.toggle('btn-danger');
-    };
+    }
+};
 
-    chatSocket.onmessage = async function (e) {
-        const data = JSON.parse(e.data);
+// Обработка сообщений WebSocket
+chatSocket.onmessage = async function (e) {
+    const data = JSON.parse(e.data);
+
+    if (data.sdp) {
+        console.log("Получен SDP:", data.sdp.type);
+        await handleSDP(data.sdp);
+    } else if (data.ice) {
+        console.log("Получен ICE-кандидат:", data.ice);
+        await handleICE(data.ice);
+    } else if (data.message) {
         const chatLog = document.querySelector('#chat-log');
         const messageElement = document.createElement('div');
 
         messageElement.className = data.username === username ? 'text-end text-primary' : 'text-start text-secondary';
         messageElement.innerHTML = `<b>${data.username}:</b> ${data.message}`;
         chatLog.prepend(messageElement);
+    }
+};
 
-        if (data.sdp) {
-            await handleSDP(data.sdp);
-        } else if (data.ice) {
-            await handleICE(data.ice);
-        }
-    };
+// Отправка сообщения через WebSocket
+document.querySelector('#chat-message-submit').onclick = function () {
+    const messageInputDom = document.querySelector('#chat-message-input');
+    const message = messageInputDom.value;
 
-    document.querySelector('#chat-message-submit').onclick = function () {
-        const messageInputDom = document.querySelector('#chat-message-input');
-        const message = messageInputDom.value;
+    chatSocket.send(JSON.stringify({
+        'username': username,
+        'message': message
+    }));
 
-        chatSocket.send(JSON.stringify({
-            'username': username,
-            'message': message
-        }));
+    messageInputDom.value = '';
+};
 
-        messageInputDom.value = '';
-    };
+// Завершение чата
+document.querySelector('#end-chat').onclick = function () {
+    window.location.href = "{% url 'ads_list' 'all' %}";
+};
 
-    document.querySelector('#end-chat').onclick = function () {
-        window.location.href = "{% url 'ads_list' 'all'%}";
-    };
-
-    startLocalVideo();
-
-    async function handleSDP(sdp) {
+// Обработка SDP
+async function handleSDP(sdp) {
+    try {
         await peerConnection.setRemoteDescription(new RTCSessionDescription(sdp));
-        const answer = await peerConnection.createAnswer();
-        await peerConnection.setLocalDescription(answer);
-        chatSocket.send(JSON.stringify({
-            'sdp': answer,
-            'username': username
-        }));
+        if (sdp.type === 'offer') {
+            const answer = await peerConnection.createAnswer();
+            await peerConnection.setLocalDescription(answer);
+            chatSocket.send(JSON.stringify({
+                'sdp': answer,
+                'username': username
+            }));
+        }
+    } catch (error) {
+        console.error("Ошибка обработки SDP:", error);
     }
+}
 
-    async function handleICE(ice) {
+// Обработка ICE-кандидатов
+async function handleICE(ice) {
+    try {
         await peerConnection.addIceCandidate(new RTCIceCandidate(ice));
+    } catch (error) {
+        console.error("Ошибка добавления ICE-кандидата:", error);
     }
+}
+
+// Запуск локального видео при загрузке
+startLocalVideo();
+
 </script>
 
 {% endblock %}
