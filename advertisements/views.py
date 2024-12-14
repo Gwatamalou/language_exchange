@@ -131,17 +131,16 @@ class MakeAdvertisement(LoginRequiredMixin, FormView):
         try:
             # Создаём объявление
             add_new_advertisement(self.request.user, form)
-            response = {'status': 'success', 'message': 'Объявление успешно создано.'}
         except Exception as e:
             logger.error(f'Failed to create new ad for user {self.request.user} | {e}')
-            response = {'status': 'error', 'message': 'Произошла ошибка при создании объявления.'}
-
-        if self.request.is_ajax():
-            return JsonResponse(response)
         return redirect('ads_list', 'my')
 
-    def form_invalid(self, form):
-        response = {'status': 'error', 'message': 'Пожалуйста, исправьте ошибки в форме.'}
-        if self.request.is_ajax():
-            return JsonResponse(response)
-        return super().form_invalid(form)
+
+    def get_context_data(self, **kwargs):
+        """Добавить дополнительные данные в контекст"""
+        context = super().get_context_data(**kwargs)
+        context.update({
+            'auth': self.request.user.is_authenticated,
+        })
+
+        return context

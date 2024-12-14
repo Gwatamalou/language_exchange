@@ -1,5 +1,7 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.views import PasswordChangeView
+
 from django.contrib.auth import views as auth_views
 
 from django.shortcuts import render, redirect, get_object_or_404, reverse
@@ -32,13 +34,7 @@ class RegisterView(FormView):
     form_class = UserCreationForm
 
     def form_valid(self, form):
-        try:
-            register_user(form)
-            logger.info(f'created user {self.request.user} successfully')
-            return redirect(LOGIN_URL)
-        except Exception as e:
-            logger.warning(f'user creation error {self.request.user} | {e}')
-            return self.form_invalid(form)
+        return redirect(LOGIN_URL) if register_user(form, self.request.user) else self.form_invalid(form)
 
 
 class UserProfileView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
@@ -135,31 +131,6 @@ class UserProfileView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
         return redirect('user-profile', user_id=self.request.user.id)
 
 
-# class UpdateLanguageSkillView(LoginRequiredMixin, UpdateView):
-#     form_class = LanguageSkillForm
-#     template_name = 'users/update_language_skill.html'
-#     context_object_name = 'skill'
-#
-#     def get_object(self, queryset=None):
-#         skill_id = self.kwargs['skill_id']
-#         skill = get_current_language_skill(skill_id)
-#         print(skill.user.id)
-#         return skill
-#
-    # def get_form_kwargs(self):
-    #     kwargs = super().get_form_kwargs()
-    #     kwargs.update({
-    #         'instance': self.get_object(),
-    #         'language_readonly': True,
-    #     })
-    #     return kwargs
-#
-#     def form_valid(self, form):
-#         form.instance.user = self.request.user
-#         update_language_skill(self.request.user.id, form)
-#         return redirect('user-profile', user_id=self.request.user.id)
-
-
 class NotificationView(LoginRequiredMixin, ListView):
     template_name = 'users/notification.html'
     model = Notification
@@ -204,3 +175,18 @@ class CustomLoginView(auth_views.LoginView):
     def get_success_url(self):
         """Пусть редиректа после авторизации"""
         return reverse('user-profile', args=(self.request.user.id, ))
+
+
+class CustomPasswordChangeView(LoginRequiredMixin, PasswordChangeView):
+    def get_success_url(self):
+        """Редирект после успешной смены пароля"""
+        return reverse('user-profile', args=(self.request.user.id,))
+
+    def get_context_data(self, **kwargs):
+        """Добавить дополнительные данные в контекст"""
+        context = super().get_context_data(**kwargs)
+        context.update({
+            'auth': self.request.user.is_authenticated,
+        })
+
+        return context

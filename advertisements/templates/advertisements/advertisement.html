@@ -4,12 +4,14 @@
     <h1 class="text-center mt-3" id="title">{{ advertisement.user.username }}</h1>
 
     <div class="container-xl mh-350 my-5">
-        <div class="row mb-5">
+    <div class="content-block content-block-user-info">
+        <div class="row">
             <div class="col-12 text-center">
                 <img id="avatar" src="{{ avatar_url }}" alt="Avatar">
             </div>
         </div>
-
+    </div>
+    <div class="content-block content-block-user-info">
         <div class="row mb-5">
             <!-- Знает -->
             <div class="col-md-6 text-md-end col-12 text-center">
@@ -25,7 +27,8 @@
                 <p>{{ advertisement.language_to_learn }} {{ advertisement.language_level_to_learn }}</p>
             </div>
         </div>
-
+    </div>
+    <div class="content-block content-block-user-info">
         <div class="row">
     <div class="content-list d-flex justify-content-center align-items-center w-100">
         <form method="POST" class="me-2">
@@ -40,6 +43,5 @@
     </div>
 </div>
     </div>
-
-    {% include 'advertisements/include/ads_list.html' %}
+    </div>я
 {% endblock %}

@@ -1,203 +1,56 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
 
-<div class="container d-flex flex-column align-items-center justify-content-center vh-100 my-5">
-    <!-- Видео собеседника -->
-    <div class="position-relative mb-4" style="width: 100%; max-width: 800px; aspect-ratio: 16/9; background-color: #999999; border-radius: 10px; overflow: hidden;">
-        <video id="remoteVideo" autoplay style="width: 100%; height: 100%; object-fit: cover;"></video>
+    <div class="container d-flex flex-column align-items-center justify-content-center vh-100 my-5">
+        <!-- Видео собеседника -->
+        <div class="position-relative mb-4" id="main_video">
+            <video id="remoteVideo" autoplay></video>
 
-        <!-- Локальное видео -->
-        <div class="position-absolute bottom-0 start-0 p-2">
-            <video id="localVideo" autoplay muted class="rounded-circle border" style="width: 100px; height: 100px; object-fit: cover; background: #53B3FF;"></video>
-        </div>
+            <!-- Локальное видео -->
+            <div class="position-absolute bottom-0 start-0 p-2">
+                <video id="localVideo" autoplay muted class="rounded-circle border"></video>
+            </div>
 
-        <!-- Кнопка "Закончить" -->
-        <button id="end-chat" class="btn btn-danger rounded-circle position-absolute bottom-0 end-0 m-3" style="width: 50px; height: 50px;">
-            &#10005;
-        </button>
-
-        <!-- Кнопки управления видео и микрофоном -->
-        <div class="d-flex justify-content-center position-absolute bottom-0 start-50 translate-middle-x mb-3">
-            <button id="toggle-video" class="btn btn-secondary rounded-circle me-3" style="width: 50px; height: 50px;">
-                🎥
+            <!-- Кнопка "Закончить" -->
+            <button id="end-chat" class="btn btn-danger rounded-circle position-absolute bottom-0 end-0 m-3">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-telephone-x" viewBox="0 0 16 16">
+  <path d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.568 17.568 0 0 0 4.168 6.608 17.569 17.569 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.678.678 0 0 0-.58-.122l-2.19.547a1.745 1.745 0 0 1-1.657-.459L5.482 8.062a1.745 1.745 0 0 1-.46-1.657l.548-2.19a.678.678 0 0 0-.122-.58L3.654 1.328zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511z"/>
+  <path fill-rule="evenodd" d="M11.146 1.646a.5.5 0 0 1 .708 0L13 2.793l1.146-1.147a.5.5 0 0 1 .708.708L13.707 3.5l1.147 1.146a.5.5 0 0 1-.708.708L13 4.207l-1.146 1.147a.5.5 0 0 1-.708-.708L12.293 3.5l-1.147-1.146a.5.5 0 0 1 0-.708z"/>
+</svg>
             </button>
-            <button id="toggle-audio" class="btn btn-secondary rounded-circle" style="width: 50px; height: 50px;">
-                🎤
-            </button>
+
+            <!-- Кнопки управления видео и микрофоном -->
+            <div class="d-flex justify-content-center position-absolute bottom-0 start-50 translate-middle-x mb-3">
+                <button id="toggle-video" class="btn btn-secondary rounded-circle me-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-camera-video-off" viewBox="0 0 16 16">
+  <path fill-rule="evenodd" d="M10.961 12.365a1.99 1.99 0 0 0 .522-1.103l3.11 1.382A1 1 0 0 0 16 11.731V4.269a1 1 0 0 0-1.406-.913l-3.111 1.382A2 2 0 0 0 9.5 3H4.272l.714 1H9.5a1 1 0 0 1 1 1v6a1 1 0 0 1-.144.518l.605.847zM1.428 4.18A.999.999 0 0 0 1 5v6a1 1 0 0 0 1 1h5.014l.714 1H2a2 2 0 0 1-2-2V5c0-.675.334-1.272.847-1.634l.58.814zM15 11.73l-3.5-1.555v-4.35L15 4.269v7.462zm-4.407 3.56-10-14 .814-.58 10 14-.814.58z"/>
+</svg>
+                </button>
+                <button id="toggle-audio" class="btn btn-secondary rounded-circle">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-mic-mute" viewBox="0 0 16 16">
+  <path d="M13 8c0 .564-.094 1.107-.266 1.613l-.814-.814A4.02 4.02 0 0 0 12 8V7a.5.5 0 0 1 1 0v1zm-5 4c.818 0 1.578-.245 2.212-.667l.718.719a4.973 4.973 0 0 1-2.43.923V15h3a.5.5 0 0 1 0 1h-7a.5.5 0 0 1 0-1h3v-2.025A5 5 0 0 1 3 8V7a.5.5 0 0 1 1 0v1a4 4 0 0 0 4 4zm3-9v4.879l-1-1V3a2 2 0 0 0-3.997-.118l-.845-.845A3.001 3.001 0 0 1 11 3z"/>
+  <path d="m9.486 10.607-.748-.748A2 2 0 0 1 6 8v-.878l-1-1V8a3 3 0 0 0 4.486 2.607zm-7.84-9.253 12 12 .708-.708-12-12-.708.708z"/>
+</svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Чат -->
+        <div class="chat-container bg-light border rounded p-3" id="chat-box" data-room-name="{{ room_name }}">
+            <div id="chat-log" class="chat-log" data-username="{{ request.user.username }}">
+                <!-- Сообщения чата будут добавляться сюда -->
+            </div>
+        </div>
+
+        <!-- Поля ввода и кнопка "Отправить" -->
+        <div class="d-flex mt-3" id="send-btn">
+            <input id="chat-message-input" type="text" class="form-control me-2" placeholder="Введите сообщение">
+            <button id="chat-message-submit" class="btn btn-primary">Отправить</button>
         </div>
     </div>
-
-    <!-- Чат -->
-    <div class="chat-container bg-light border rounded p-3" style="width: 100%; max-width: 600px; height: 300px; overflow-y: auto; display: flex; flex-direction: column-reverse;">
-        <div id="chat-log" class="chat-log">
-            <!-- Сообщения чата будут добавляться сюда -->
-        </div>
-    </div>
-
-    <!-- Поля ввода и кнопка "Отправить" -->
-    <div class="d-flex mt-3" style="width: 100%; max-width: 600px;">
-        <input id="chat-message-input" type="text" class="form-control me-2" placeholder="Введите сообщение">
-        <button id="chat-message-submit" class="btn btn-primary">Отправить</button>
-    </div>
-</div>
-
-<script>
-  const roomName = "{{ room_name }}";
-const username = "{{ request.user.username }}";
-const chatSocket = new WebSocket(
-    'ws://' + window.location.host + '/ws/chat/' + roomName + '/'
-);
-
-const localVideo = document.getElementById('localVideo');
-const remoteVideo = document.getElementById('remoteVideo');
-const toggleVideoButton = document.getElementById('toggle-video');
-const toggleAudioButton = document.getElementById('toggle-audio');
-let localStream;
-
-let peerConnection;
-const configuration = {
-    iceServers: [{ urls: 'stun:stun.l.google.com:19302' }]
-};
-
-// Функция для запуска локального видео
-async function startLocalVideo() {
-    try {
-        localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
-        localVideo.srcObject = localStream;
-        createPeerConnection();
-    } catch (error) {
-        console.error("Ошибка доступа к медиа-устройствам:", error);
-    }
-}
-
-// Создание RTCPeerConnection
-function createPeerConnection() {
-    peerConnection = new RTCPeerConnection(configuration);
-
-    // Добавление треков локального стрима
-    localStream.getTracks().forEach(track => {
-        peerConnection.addTrack(track, localStream);
-    });
-
-    // Обработка получения удалённого трека
-    peerConnection.ontrack = (event) => {
-        if (event.streams && event.streams[0]) {
-            console.log("Получен удалённый поток:", event.streams[0]);
-            remoteVideo.srcObject = event.streams[0];
-        } else {
-            console.warn("Нет доступных потоков в ontrack.");
-        }
-    };
-
-    // Обработка ICE-кандидатов
-    peerConnection.onicecandidate = (event) => {
-        if (event.candidate) {
-            chatSocket.send(JSON.stringify({
-                'ice': event.candidate,
-                'username': username
-            }));
-        }
-    };
-
-    // Обработка изменений состояния соединения
-    peerConnection.onconnectionstatechange = () => {
-        console.log("Connection state:", peerConnection.connectionState);
-        if (peerConnection.connectionState === "failed") {
-            console.error("Соединение WebRTC не удалось.");
-        }
-    };
-
-    peerConnection.oniceconnectionstatechange = () => {
-        console.log("ICE state:", peerConnection.iceConnectionState);
-    };
-}
-
-// Переключение видео
-toggleVideoButton.onclick = () => {
-    const videoTrack = localStream.getVideoTracks()[0];
-    if (videoTrack) {
-        videoTrack.enabled = !videoTrack.enabled;
-        toggleVideoButton.classList.toggle('btn-danger');
-    }
-};
-
-// Переключение аудио
-toggleAudioButton.onclick = () => {
-    const audioTrack = localStream.getAudioTracks()[0];
-    if (audioTrack) {
-        audioTrack.enabled = !audioTrack.enabled;
-        toggleAudioButton.classList.toggle('btn-danger');
-    }
-};
-
-// Обработка сообщений WebSocket
-chatSocket.onmessage = async function (e) {
-    const data = JSON.parse(e.data);
-
-    if (data.sdp) {
-        console.log("Получен SDP:", data.sdp.type);
-        await handleSDP(data.sdp);
-    } else if (data.ice) {
-        console.log("Получен ICE-кандидат:", data.ice);
-        await handleICE(data.ice);
-    } else if (data.message) {
-        const chatLog = document.querySelector('#chat-log');
-        const messageElement = document.createElement('div');
-
-        messageElement.className = data.username === username ? 'text-end text-primary' : 'text-start text-secondary';
-        messageElement.innerHTML = `<b>${data.username}:</b> ${data.message}`;
-        chatLog.prepend(messageElement);
-    }
-};
-
-// Отправка сообщения через WebSocket
-document.querySelector('#chat-message-submit').onclick = function () {
-    const messageInputDom = document.querySelector('#chat-message-input');
-    const message = messageInputDom.value;
-
-    chatSocket.send(JSON.stringify({
-        'username': username,
-        'message': message
-    }));
-
-    messageInputDom.value = '';
-};
-
-// Завершение чата
-document.querySelector('#end-chat').onclick = function () {
-    window.location.href = "{% url 'ads_list' 'all' %}";
-};
-
-// Обработка SDP
-async function handleSDP(sdp) {
-    try {
-        await peerConnection.setRemoteDescription(new RTCSessionDescription(sdp));
-        if (sdp.type === 'offer') {
-            const answer = await peerConnection.createAnswer();
-            await peerConnection.setLocalDescription(answer);
-            chatSocket.send(JSON.stringify({
-                'sdp': answer,
-                'username': username
-            }));
-        }
-    } catch (error) {
-        console.error("Ошибка обработки SDP:", error);
-    }
-}
-
-// Обработка ICE-кандидатов
-async function handleICE(ice) {
-    try {
-        await peerConnection.addIceCandidate(new RTCIceCandidate(ice));
-    } catch (error) {
-        console.error("Ошибка добавления ICE-кандидата:", error);
-    }
-}
-
-// Запуск локального видео при загрузке
-startLocalVideo();
-
-</script>
-
+    <script src="{% static 'lessons/js/video_chat.js' %}" defer></script>
+    <script src="{% static 'lessons/js/text_chat.js' %}" defer></script>
+    <script src="{% static 'lessons/js/misc.js' %}" defer></script>
 {% endblock %}

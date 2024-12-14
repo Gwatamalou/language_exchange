@@ -1,16 +1,61 @@
+:root{
+    --main-color: #49c5b6;
+}
+
+
 .mh-350 {
     height: 350px;
     max-height: 350px;
 }
 
+nav{
+    background-color: var(--main-color);
+}
+
+#notification-container{
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    width: 300px;
+    z-index: 1000;
+}
+
 .content-block{
         background-color: white;
         border-radius: 10px;
-        width: 780px;
         max-width: calc(100% - 20px);
         margin: 0 auto;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Тень */
         padding: 20px;
+        margin-bottom: 10px;
+}
+
+.content-block-user-info, .content-block-add-language, .content-block-user-language{
+    width: 600px;
+ }
+
+.content-block-login{
+    width: 300px;
+}
+
+.content-block-ads {
+    width: 100%; /* гибкая ширина */
+    max-width: 780px;
+}
+
+.content-block-add {
+    width: 300px;
+}
+
+
+.content-block p {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+
+.content-block-notify{
+    width: 400px;
 }
 /*=========================================================*/
 
@@ -29,6 +74,9 @@
 
 }
 
+#avatar-input{
+    display: none;
+}
 
 
 /*=========================================================*/
@@ -39,8 +87,55 @@
 
 
 #mini_avatar{
-    width: 35px;
-    height: 35px;
-    border-radius: 100%;
-    margin-right: 10px;
+    width: 40px;
+    height: 40px;
+}
+
+
+
+/*=========================================================*/
+
+/*lessons*/
+
+/*=========================================================*/
+
+#main_video{
+    width: 100%;
+    max-width: 800px;
+    aspect-ratio: 16/9;
+    background-color: #999999;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+#remoteVideo{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+#localVideo{
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    background: #53B3FF;
+}
+
+#end-chat, #toggle-video, #toggle-audio{
+    width: 50px;
+    height: 50px;
+}
+
+#chat-box{
+    width: 100%;
+    max-width: 600px;
+    height: 300px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+#send-btn{
+    width: 100%;
+    max-width: 600px;
 }

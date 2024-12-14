@@ -2,16 +2,27 @@
 
 {% block content %}
 
-    {% for n in notification %}
-        {{ n.responder }}<br>
-        <form method="POST">
-        {% csrf_token %}
-        <button type="submit" name="accept" value="{{ n.id }}">Принять</button>
-        <button type="submit" name="decline" value="{{ n.id }}">Отклонить</button>
-        </form>
-
-    {% endfor %}
-    
-
+    <div class="container mt-5">
+        <div class="row justify-content-center ">
+            <div class="col-auto">
+                {% for n in notification %}
+                    <div class="content-block content-block-notify">
+                        <div class="text-center mb-3">
+                            <p>{{ n.responder }}</p>
+                            <form method="POST">
+                                {% csrf_token %}
+                                <button type="submit" name="accept" value="{{ n.id }}" class="btn btn-success mx-2">
+                                    Принять
+                                </button>
+                                <button type="submit" name="decline" value="{{ n.id }}" class="btn btn-danger mx-2">
+                                    Отклонить
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
 
 {% endblock %}

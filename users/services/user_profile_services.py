@@ -3,7 +3,11 @@ from django.core.exceptions import ValidationError
 from django.shortcuts import get_object_or_404
 from django.db import transaction
 
+import logging
+
 from users.models import LanguageSkill, UserProfile
+
+logger = logging.getLogger(__name__)
 
 __all__ = ['get_user_data',
            'register_user',
@@ -40,8 +44,11 @@ def update_avatar(profile, avatar):
 
 
 @transaction.atomic
-def register_user(form):
-     form.save()
-
+def register_user(form, user):
+    try:
+        form.save()
+        logger.info(f'created user {user} successfully')
+    except Exception as e:
+        logger.warning(f'user creation error {user} | {e}')
 
 

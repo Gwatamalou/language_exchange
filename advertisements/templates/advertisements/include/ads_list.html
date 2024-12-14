@@ -1,45 +1,47 @@
 <div class="content-list">
     {% for ads_data in ads_with_languages %}
-        <div class="row align-items-center mb-3">
-            <div class="d-flex justify-content-between align-items-center w-100">
-                {% if user_id != ads_data.ads.user.id %}
-                    <a href="{% url 'ads' ads_data.ads.id %}" class="d-flex align-items-center text-decoration-none">
-                {% endif %}
+        <div class="content-block content-block-ads">
+            <div class="row align-items-center mb-3">
+                <div class="d-flex justify-content-between align-items-center w-100">
+                    {% if user_id != ads_data.ads.user.id %}
+                        <a href="{% url 'ads' ads_data.ads.id %}" class="d-flex align-items-center text-decoration-none">
+                    {% endif %}
 
-                <div class="d-flex align-items-center">
-                    <img src="{{ ads_data.avatar_url|default_if_none:'#' }}"
-                         alt="Avatar"
-                         class="rounded-circle me-3"
-                         style="width: 40px; height: 40px;">
+                    <div class="d-flex align-items-center">
+                        <img id="mini_avatar" src="{{ ads_data.avatar_url|default_if_none:'#' }}"
+                             alt="Avatar"
+                             class="rounded-circle me-3">
 
-                    <div>
-                        <p class="mb-0">
-                            {{ ads_data.ads.user.username }} |
-                            {% if ads_data.language_skills|length > 0 %}
-                                ЗНАЕТ {{ ads_data.language_skills.0.language }} ({{ ads_data.language_skills.0.level_skill }})
-                            {% else %}
-                                <i>Нет данных о языках</i>
-                            {% endif %}
-                            | ИЗУЧАЕТ {{ ads_data.ads.language_to_learn }} | {{ ads_data.ads.language_level_to_learn }}
-                        </p>
+                        <div>
+                            <p class="mb-0">
+                                {{ ads_data.ads.user.username }} |
+                                {% if ads_data.language_skills|length > 0 %}
+                                    ЗНАЕТ {{ ads_data.language_skills.0.language }} ({{ ads_data.language_skills.0.level_skill }})
+                                {% else %}
+                                    <i>Нет данных о языках</i>
+                                {% endif %}
+                                | ИЗУЧАЕТ <span class="text-wrap">{{ ads_data.ads.language_to_learn }}</span> |
+                                <span class="text-wrap">{{ ads_data.ads.language_level_to_learn }}</span>
+                            </p>
+                        </div>
                     </div>
+
+                    {% if user_id != ads_data.ads.user.id %}
+                        </a>
+                    {% endif %}
+
+                    {% if user_id == ads_data.ads.user.id %}
+                        <div>
+                            <form method="POST" action="{% url 'ads' ads_data.ads.user.id %}" class="mb-0">
+                                {% csrf_token %}
+                                <button type="submit" name="delete_ads" value="{{ ads_data.ads.id }}"
+                                        class="btn btn-danger btn-sm ms-4">
+                                    Удалить
+                                </button>
+                            </form>
+                        </div>
+                    {% endif %}
                 </div>
-
-                {% if user_id != ads_data.ads.user.id %}
-                    </a>
-                {% endif %}
-
-                {% if user_id == ads_data.ads.user.id %}
-                    <div>
-                        <form method="POST" action="{% url 'ads' ads_data.ads.user.id %}" class="mb-0">
-                            {% csrf_token %}
-                            <button type="submit" name="delete_ads" value="{{ ads_data.ads.id }}"
-                                    class="btn btn-danger btn-sm ms-4">
-                                Удалить
-                            </button>
-                        </form>
-                    </div>
-                {% endif %}
             </div>
         </div>
     {% endfor %}
