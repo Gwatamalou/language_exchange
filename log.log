@@ -222,3 +222,26 @@ INFO 2024-12-14 10:44:33,013 views notification 108 decline Mari
 INFO 2024-12-14 10:44:39,260 views notification 109 accept Mari
 INFO 2024-12-14 10:47:32,352 views notification 110 accept Mari
 INFO 2024-12-14 10:52:49,584 views notification 111 accept Mari
+INFO 2024-12-14 13:12:20,983 views  skill has been deleted for the user Mari
+INFO 2024-12-14 13:12:21,542 views  skill has been deleted for the user Mari
+INFO 2024-12-14 13:12:22,077 views  skill has been deleted for the user Mari
+INFO 2024-12-14 13:34:55,149 views add new avatar for Mari
+INFO 2024-12-14 13:34:57,225 language_skill_services added is user skill Mari
+INFO 2024-12-14 13:34:57,228 views added is user skill Mari
+INFO 2024-12-14 13:35:01,381 views skill updated for user Mari
+INFO 2024-12-14 13:35:03,048 views  skill has been deleted for the user Mari
+INFO 2024-12-14 13:36:58,202 language_skill_services added is user skill Mari
+INFO 2024-12-14 13:37:03,448 views skill updated for user Mari
+INFO 2024-12-14 13:37:05,094 views  skill has been deleted for the user Mari
+INFO 2024-12-14 14:05:26,883 language_skill_services added is user skill Mari
+INFO 2024-12-14 14:05:34,956 language_skill_services skill updated for user 2
+INFO 2024-12-14 14:16:59,430 views notification 112 decline Mari
+INFO 2024-12-14 14:17:04,803 views notification 113 decline Mari
+INFO 2024-12-14 14:28:25,185 language_skill_services  skill has been deleted for the user Mari
+INFO 2024-12-14 14:28:26,947 language_skill_services added is user skill Mari
+WARNING 2024-12-14 14:28:30,018 language_skill_services Skill Английский already exists for user Mari
+WARNING 2024-12-14 14:28:32,126 language_skill_services Skill Английский already exists for user Mari
+INFO 2024-12-14 14:28:34,367 language_skill_services added is user skill Mari
+WARNING 2024-12-14 14:28:38,032 language_skill_services  Duplicate skill Английский for user 2
+INFO 2024-12-14 14:28:41,494 language_skill_services skill updated for user 2
+INFO 2024-12-14 14:28:42,816 language_skill_services  skill has been deleted for the user Mari

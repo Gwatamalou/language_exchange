@@ -4,11 +4,11 @@ from django.contrib.auth.views import PasswordChangeView
 
 from django.contrib.auth import views as auth_views
 
-from django.shortcuts import render, redirect, get_object_or_404, reverse
+from django.shortcuts import render, redirect, reverse
 
 
 from django.views.generic import ListView
-from django.views.generic.edit import FormView, UpdateView
+from django.views.generic.edit import FormView
 from django.views.generic.detail import DetailView
 
 import logging
@@ -42,12 +42,10 @@ class UserProfileView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
     model = UserProfile
 
     def get_object(self, queryset=None):
-        """Переопределяем get_object для получения UserProfile по user_id"""
         user_id = self.kwargs['user_id']
-        return get_object_or_404(UserProfile, user_id=user_id)
+        return get_user_data(user_id)
 
     def test_func(self):
-        """Проверка, что пользователь просматривает свой профиль"""
         return self.request.user.id == int(self.kwargs['user_id'])
 
     def handle_no_permission(self):
@@ -55,7 +53,7 @@ class UserProfileView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        user, user_language, avatar_url = get_user_data(user_id=self.kwargs['user_id'])
+        user, user_language, avatar_url = get_all_user_data(user_id=self.kwargs['user_id'])
         context.update({
             'title': 'User',
             'language': LANGUAGE_LIST,
@@ -70,17 +68,10 @@ class UserProfileView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
         return context
 
     def post(self, request, *args, **kwargs):
-        """Обработка отправленной формы для добавления языкового навыка"""
+
         if 'add_skill' in self.request.POST:
             form = LanguageSkillForm(request.POST)
-            if form.is_valid():
-                try:
-                    add_language_skill(self.request.user, form)
-                    logger.info(f'added is user skill {self.request.user}')
-                except Exception as e:
-                    logger.error(f'error adding user skill {self.request.user} | {e}')
-            else:
-                logger.warning(f'skill addition form is invalid for the user {self.request.user}')
+            add_language_skill(self.request.user, form)
 
 
         elif 'update_skill' in self.request.POST:
@@ -89,17 +80,7 @@ class UserProfileView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
 
             if is_skill_owner(skill, request.user):
                 form = LanguageSkillForm(request.POST, instance=skill)
-                if form.is_valid():
-                    try:
-                        update_language_skill(self.request.user.id, form)
-                        logger.info(f'skill updated for user {self.request.user}')
-                    except Exception as e:
-                        logger.error(f'error updating skill for user {self.request.user} | {e}')
-                else:
-                    logger.warning(f'skill update form is invalid for user {self.request.user}')
-            else:
-                logger.warning(f'user {self.request.user} attempted to update someone else\'s skill')
-
+                update_language_skill(self.request.user.id, form)
 
 
         elif "delete_skill_id" in self.request.POST:
@@ -107,27 +88,14 @@ class UserProfileView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
             skill = get_current_language_skill(skill_id)
 
             if is_skill_owner(skill, request.user):
-                try:
-                    delete_skill(skill)
-                    logger.info(f' skill has been deleted for the user {self.request.user}')
-                except Exception as e:
-                    logger.error(f'Error when deleting a skill for a user {self.request.user} | {e}')
-            else:
-                logger.warning(f'user {self.request.user} attempt to delete someone`s skill')
-
-
+                    delete_skill(self.request.user, skill)
 
 
         elif "avatar" in self.request.FILES:
             profile = self.request.user.userprofile
             if request.FILES.get('avatar'):
-                try:
-                    avatar = request.FILES['avatar']
-                    update_avatar(profile, avatar)
-                    logger.info(f'add new avatar for {self.request.user}')
-                except Exception as e:
-                    logger.error(f'error add new avatar for user {self.request.user} | {e}')
-
+                avatar = request.FILES['avatar']
+                update_avatar(profile, avatar)
         return redirect('user-profile', user_id=self.request.user.id)
 
 
@@ -153,23 +121,15 @@ class NotificationView(LoginRequiredMixin, ListView):
         notification_id = request.POST.get("accept") or request.POST.get("decline")
         notification = get_current_notification(notification_id, request.user)
 
+
         if 'accept' in request.POST:
-            try:
-                room = notification_accept(notification)
-                logger.info(f'notification {notification_id} accept {self.request.user}')
+            room = notification_accept(notification)
+            if room:
                 return redirect('lesson', room)
-            except Exception as e:
-                logger.error(f'failed accept notification {notification_id} user {self.request.user} | {e}')
-                return redirect('notification-list')
+
 
         elif 'decline' in request.POST:
-            try:
                 notification_delete(notification)
-                logger.info(f'notification {notification_id} decline {self.request.user}')
-            except Exception as e:
-                logger.error(f'failed decline notification {notification_id} user {self.request.user} | {e}')
-            return redirect('notification-list')
-
 
 class CustomLoginView(auth_views.LoginView):
     def get_success_url(self):
@@ -183,7 +143,6 @@ class CustomPasswordChangeView(LoginRequiredMixin, PasswordChangeView):
         return reverse('user-profile', args=(self.request.user.id,))
 
     def get_context_data(self, **kwargs):
-        """Добавить дополнительные данные в контекст"""
         context = super().get_context_data(**kwargs)
         context.update({
             'auth': self.request.user.is_authenticated,
