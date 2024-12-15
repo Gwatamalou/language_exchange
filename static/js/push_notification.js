@@ -3,7 +3,7 @@
 let protocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
 let connectionString = `${protocol}://${window.location.host}/ws/notification/`;
 let notifySocket = new WebSocket(connectionString);
-notifySocket.onmessage = function (event){
+notifySocket.onmessage = function (event) {
     const data = JSON.parse(event.data);
     displayNotification(data.message, data.notify_id);
 };
@@ -46,14 +46,27 @@ function displayNotification(message, notify_id) {
     csrfInput.value = getCSRFToken();
 
     accept.type = 'submit';
-    accept.name='accept';
-    accept.value=notify_id;
+    accept.name = 'accept';
+    accept.value = notify_id;
     accept.textContent = "Принять";
+    accept.addEventListener("click", (event) => {
+        notifySocket.send(JSON.stringify({
+            action: 'accept',
+            notify_id: notify_id
+        }))
+    })
 
     decline.type = 'submit';
-    decline.name='decline';
-    decline.value=notify_id;
+    decline.name = 'decline';
+    decline.value = notify_id;
     decline.textContent = "Отклонить";
+    decline.addEventListener("click", (event) => {
+        notifySocket.send(JSON.stringify({
+            action: 'decline',
+            notify_id: notify_id
+        }))
+    })
+
 
     buttonContainer.appendChild(csrfInput);
     buttonContainer.appendChild(accept)
@@ -61,7 +74,6 @@ function displayNotification(message, notify_id) {
 
     notify.appendChild(buttonContainer)
     container.appendChild(notify)
-
 
 
     setTimeout(() => {

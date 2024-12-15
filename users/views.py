@@ -6,7 +6,6 @@ from django.contrib.auth import views as auth_views
 
 from django.shortcuts import render, redirect, reverse
 
-
 from django.views.generic import ListView
 from django.views.generic.edit import FormView
 from django.views.generic.detail import DetailView
@@ -20,8 +19,8 @@ from .forms import LanguageSkillForm
 from .models import UserProfile
 from .services import *
 
-
 logger = logging.getLogger(__name__)
+
 
 # Qwertyui1.
 def index(request):
@@ -88,7 +87,7 @@ class UserProfileView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
             skill = get_current_language_skill(skill_id)
 
             if is_skill_owner(skill, request.user):
-                    delete_skill(self.request.user, skill)
+                delete_skill(self.request.user, skill)
 
 
         elif "avatar" in self.request.FILES:
@@ -103,7 +102,6 @@ class NotificationView(LoginRequiredMixin, ListView):
     template_name = 'users/notification.html'
     model = Notification
     context_object_name = 'notification'
-
 
     def get_queryset(self):
         return get_notification(self.request.user.id)
@@ -121,7 +119,6 @@ class NotificationView(LoginRequiredMixin, ListView):
         notification_id = request.POST.get("accept") or request.POST.get("decline")
         notification = get_current_notification(notification_id, request.user)
 
-
         if 'accept' in request.POST:
             room = notification_accept(notification)
             if room:
@@ -129,12 +126,14 @@ class NotificationView(LoginRequiredMixin, ListView):
 
 
         elif 'decline' in request.POST:
-                notification_delete(notification)
+            notification_delete(notification)
+            return redirect('notification-list')
+
 
 class CustomLoginView(auth_views.LoginView):
     def get_success_url(self):
         """Пусть редиректа после авторизации"""
-        return reverse('user-profile', args=(self.request.user.id, ))
+        return reverse('user-profile', args=(self.request.user.id,))
 
 
 class CustomPasswordChangeView(LoginRequiredMixin, PasswordChangeView):

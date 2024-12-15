@@ -11,9 +11,7 @@ def notify_user(sender, instance, created, **kwargs):
     if created:
             user_id = instance.user_id
             notify_id = instance.id
-            print(notify_id)
             channel_layer = get_channel_layer()
-            print(user_id)
             group_name = f'user_{user_id}'
             async_to_sync(channel_layer.group_send)(
                 group_name,
