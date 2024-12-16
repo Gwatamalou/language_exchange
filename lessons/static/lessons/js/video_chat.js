@@ -9,7 +9,7 @@ const configuration = {
     iceServers: [{ urls: 'stun:stun.l.google.com:19302' }]
 };
 
-// Функция для запуска локального видео
+
 async function startLocalVideo() {
     try {
         localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
@@ -20,7 +20,7 @@ async function startLocalVideo() {
     }
 }
 
-// Создание RTCPeerConnection
+
 function createPeerConnection() {
     peerConnection = new RTCPeerConnection(configuration);
 
@@ -29,14 +29,14 @@ function createPeerConnection() {
         peerConnection.addTrack(track, localStream);
     });
 
-    // Обработка получения удалённого трека
+
     peerConnection.ontrack = (event) => {
         if (event.streams && event.streams[0]) {
             remoteVideo.srcObject = event.streams[0];
         }
     };
 
-    // Обработка ICE-кандидатов
+
     peerConnection.onicecandidate = (event) => {
         if (event.candidate) {
             chatSocket.send(JSON.stringify({
@@ -47,7 +47,7 @@ function createPeerConnection() {
     };
 }
 
-// Переключение видео
+
 toggleVideoButton.onclick = () => {
     const videoTrack = localStream.getVideoTracks()[0];
     if (videoTrack) {
@@ -56,7 +56,7 @@ toggleVideoButton.onclick = () => {
     }
 };
 
-// Переключение аудио
+
 toggleAudioButton.onclick = () => {
     const audioTrack = localStream.getAudioTracks()[0];
     if (audioTrack) {
@@ -65,5 +65,5 @@ toggleAudioButton.onclick = () => {
     }
 };
 
-// Запуск локального видео при загрузке
+
 startLocalVideo();

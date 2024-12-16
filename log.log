@@ -273,3 +273,7 @@ WARNING 2024-12-15 12:27:30,210 language_skill_services skill update form is inv
 WARNING 2024-12-15 12:27:33,566 language_skill_services skill update form is invalid for user 2
 WARNING 2024-12-15 12:29:14,584 language_skill_services skill update form is invalid for user 2
 INFO 2024-12-15 12:34:07,508 language_skill_services added is user skill Mari
+WARNING 2024-12-16 10:08:08,981 language_skill_services Skill Английский already exists for user Mari
+INFO 2024-12-16 10:08:11,905 language_skill_services added is user skill Mari
+INFO 2024-12-16 10:08:13,912 language_skill_services  skill has been deleted for the user Mari
+INFO 2024-12-16 10:08:18,152 language_skill_services skill updated for user 2

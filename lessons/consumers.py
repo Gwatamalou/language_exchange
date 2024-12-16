@@ -4,7 +4,7 @@ from channels.generic.websocket import AsyncWebsocketConsumer
 
 
 class ChatConsumer(AsyncWebsocketConsumer):
-    # Присоединение к группе
+
     async def connect(self):
         self.room_name = self.scope['url_route']['kwargs']['room_name']
         self.room_group_name = f'chat_{self.room_name}'
@@ -18,7 +18,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
         await self.accept()
 
-    # Выход из группы
+
     async def disconnect(self, code):
         await self.channel_layer.group_discard(
             self.room_group_name,
@@ -43,7 +43,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
             }
         )
 
-    # Отправка сообщения в websocket
+
     async def chat_message(self, event):
         message = event['message']
         username = event['username']

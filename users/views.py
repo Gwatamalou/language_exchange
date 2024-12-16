@@ -41,8 +41,9 @@ class UserProfileView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
     model = UserProfile
 
     def get_object(self, queryset=None):
-        user_id = self.kwargs['user_id']
-        return get_user_data(user_id)
+        if not hasattr(self, '_user'):
+            self._user = get_user_data(self.kwargs['user_id'])
+        return self._user
 
     def test_func(self):
         return self.request.user.id == int(self.kwargs['user_id'])
@@ -52,7 +53,10 @@ class UserProfileView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        user, user_language, avatar_url = get_all_user_data(user_id=self.kwargs['user_id'])
+        if not hasattr(self, '_user_data'):
+            self._user_data = get_all_user_data(user_id=self.kwargs['user_id'])
+
+        user, user_language, avatar_url = self._user_data
         context.update({
             'title': 'User',
             'language': LANGUAGE_LIST,
@@ -132,13 +136,11 @@ class NotificationView(LoginRequiredMixin, ListView):
 
 class CustomLoginView(auth_views.LoginView):
     def get_success_url(self):
-        """Пусть редиректа после авторизации"""
         return reverse('user-profile', args=(self.request.user.id,))
 
 
 class CustomPasswordChangeView(LoginRequiredMixin, PasswordChangeView):
     def get_success_url(self):
-        """Редирект после успешной смены пароля"""
         return reverse('user-profile', args=(self.request.user.id,))
 
     def get_context_data(self, **kwargs):

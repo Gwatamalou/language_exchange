@@ -8,6 +8,10 @@ from advertisements.models import Notification
 
 @receiver(post_save, sender=Notification)
 def notify_user(sender, instance, created, **kwargs):
+    """
+    отслеживает запись в таблицу уведомлений
+    отправляет сообщения по websoсket для формирования push notify
+    """
     if created:
             user_id = instance.user_id
             notify_id = instance.id

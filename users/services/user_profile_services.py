@@ -18,7 +18,7 @@ __all__ = ['get_all_user_data',
 
 
 def get_user_data(user_id: int):
-    return get_object_or_404(User, id=user_id)
+    return User.objects.select_related('userprofile').get(id=user_id)
 
 
 def get_user_language_skills(user_id: int):

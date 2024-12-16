@@ -4,7 +4,7 @@ const chatSocket = new WebSocket(
     'ws://' + window.location.host + '/ws/chat/' + roomName + '/'
 );
 
-// Обработка сообщений WebSocket
+
 chatSocket.onmessage = function (e) {
     const data = JSON.parse(e.data);
 
@@ -18,7 +18,7 @@ chatSocket.onmessage = function (e) {
     }
 };
 
-// Отправка сообщения через WebSocket
+
 document.querySelector('#chat-message-submit').onclick = function () {
     const messageInputDom = document.querySelector('#chat-message-input');
     const message = messageInputDom.value;

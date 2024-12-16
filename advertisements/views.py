@@ -12,8 +12,6 @@ from .services.advertisement_services import delete_ads, choose_ads
 
 
 class AdvertisementsList(LoginRequiredMixin, ListView):
-    """Представление списка объявлений"""
-
     template_name = 'advertisements/ads_list.html'
     model = Advertisement
     context_object_name = 'ads_with_languages'
@@ -46,7 +44,6 @@ class AdvertisementsList(LoginRequiredMixin, ListView):
 
 
 class SelectedAdvertisement(LoginRequiredMixin, DetailView):
-    """Представление выбранного объявления"""
     template_name = 'advertisements/advertisement.html'
     model = Advertisement
     pk_url_kwarg = 'user_id'
@@ -71,11 +68,6 @@ class SelectedAdvertisement(LoginRequiredMixin, DetailView):
         return context
 
     def post(self, request, *args, **kwargs):
-        """
-        Обработчик пост запросов
-        delete_ads: удаление своего объявления
-        choose: выбор объявления и перенаправление на страницу диалога
-        """
 
         if 'delete_ads' in request.POST:
             ads_id = request.POST.get('delete_ads')
@@ -93,7 +85,6 @@ class SelectedAdvertisement(LoginRequiredMixin, DetailView):
 
 
 class MakeAdvertisement(LoginRequiredMixin, FormView):
-    """Представление формы создания объявления"""
     template_name = 'advertisements/add_ads.html'
     form_class = AdvertisementForm
 
@@ -104,7 +95,6 @@ class MakeAdvertisement(LoginRequiredMixin, FormView):
 
 
     def get_context_data(self, **kwargs):
-        """Добавить дополнительные данные в контекст"""
         context = super().get_context_data(**kwargs)
         context.update({
             'auth': self.request.user.is_authenticated,

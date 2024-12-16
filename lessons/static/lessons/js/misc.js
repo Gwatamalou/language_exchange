@@ -1,9 +1,7 @@
-// Завершение чата
 document.querySelector('#end-chat').onclick = function () {
     window.location.href = "{% url 'ads_list' 'all' %}";
 };
 
-// Обработка SDP
 async function handleSDP(sdp) {
     try {
         await peerConnection.setRemoteDescription(new RTCSessionDescription(sdp));
@@ -20,7 +18,7 @@ async function handleSDP(sdp) {
     }
 }
 
-// Обработка ICE-кандидатов
+
 async function handleICE(ice) {
     try {
         await peerConnection.addIceCandidate(new RTCIceCandidate(ice));

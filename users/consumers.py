@@ -8,6 +8,9 @@ from users.services import notification_services as ntfy
 
 
 class NotificationConsumer(AsyncWebsocketConsumer):
+    """
+    потребитель формирования push notify
+    """
     async def connect(self):
         self.user = self.scope['user']
         if self.user.is_authenticated:

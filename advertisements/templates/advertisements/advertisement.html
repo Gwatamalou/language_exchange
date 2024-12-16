@@ -13,7 +13,6 @@
     </div>
     <div class="content-block content-block-user-info">
         <div class="row mb-5">
-            <!-- Знает -->
             <div class="col-md-6 text-md-end col-12 text-center">
                 <h3>Знает</h3>
                 {% for skill in user_language_skills %}
@@ -21,7 +20,6 @@
                 {% endfor %}
             </div>
 
-            <!-- Изучает -->
             <div class="col-md-6 text-md-start col-12 text-center py-2">
                 <h3>Изучает</h3>
                 <p>{{ advertisement.language_to_learn }} {{ advertisement.language_level_to_learn }}</p>
