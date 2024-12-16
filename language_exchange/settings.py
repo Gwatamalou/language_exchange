@@ -51,6 +51,7 @@ SECRET_KEY = 'django-insecure-3=+$y7e)7sw&4c)v!&f$d*_6147a%&h1(vg(b6k96#r6t=&3lf
 DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '192.168.0.9', os.getenv('ALLOWED_HOST', '')]
+INTERNAL_IPS = ["127.0.0.1",]
 
 # Application definition
 
@@ -65,7 +66,8 @@ INSTALLED_APPS = [
     'channels',
     'advertisements.apps.AdvertisementsConfig',
     'lessons.apps.LessonsConfig',
-    'users.apps.UsersConfig'
+    'users.apps.UsersConfig',
+    "debug_toolbar",
 ]
 
 MIDDLEWARE = [
@@ -76,6 +78,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+"debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
 
 ROOT_URLCONF = 'language_exchange.urls'
